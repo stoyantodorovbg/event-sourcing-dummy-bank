@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('borrower_id');
             $table->decimal('amount', 12, 2);
+            $table->decimal('deposit', 12, 2)->default(0);
             $table->unsignedTinyInteger('status')->default(0);
             $table->string('code');
+            $table->dateTime('deadline');
+
             $table->timestamps();
 
             $table->foreign('borrower_id')->references('id')->on('borrowers')->onDelete('cascade');
