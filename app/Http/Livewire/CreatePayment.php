@@ -15,8 +15,8 @@ class CreatePayment extends Component
 {
     public Collection|null $credits = null;
 
-    public string $creditCode;
-    public float $deposit;
+    public string|null $creditCode;
+    public float|null $deposit;
 
     protected array $rules = [
         'creditCode' => 'required|string|exists:credits,code',
@@ -53,6 +53,14 @@ class CreatePayment extends Component
         );
         $this->payInstallment->execute($paymentInput);
 
-        $this->redirect(route('credits.index'));
+        $this->emit('loadCredits');
+        $this->unsetAttributes();
+        $this->emit('showAlert', 'success.message', 'Payment created.');
+    }
+
+    protected function unsetAttributes(): void
+    {
+        $this->creditCode = null;
+        $this->deposit = null;
     }
 }

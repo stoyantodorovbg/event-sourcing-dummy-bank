@@ -11,9 +11,9 @@ use Livewire\Component;
 
 class CreateCredit extends Component
 {
-    public string $borrower;
-    public float $amount;
-    public int $term;
+    public string|null $borrower;
+    public float|null $amount;
+    public int|null $term;
 
     protected readonly CreateCreditInterface $createCredit;
 
@@ -45,6 +45,15 @@ class CreateCredit extends Component
         );
         $this->createCredit->execute($input);
 
-        $this->redirect(route('credits.index'));
+        $this->emit('loadCredits');
+        $this->unsetAttributes();
+        $this->emit('showAlert', 'success.message', 'Credit created.');
+    }
+
+    protected function unsetAttributes(): void
+    {
+        $this->borrower = null;
+        $this->amount = null;
+        $this->term = null;
     }
 }

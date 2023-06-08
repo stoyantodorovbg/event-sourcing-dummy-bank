@@ -12,9 +12,4 @@ class CreditsController extends Controller
     {
         return view('credits.index');
     }
-
-    public function create(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-    {
-        return view('credits.create');
-    }
 }

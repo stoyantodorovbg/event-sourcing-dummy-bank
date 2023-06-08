@@ -2,13 +2,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('credits.index') }}">Credits</a>
+                <a class="nav-link p-0" href="{{ route('credits.index') }}">
+                    <button type="button" class="btn btn-primary m-1">Credits</button>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('credits.create') }}">Create Credit</a>
+                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#createCreditModal">
+                    Create Credit
+                </button>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('payments.create') }}">Create Payment</a>
+                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
+                    Create Payment
+                </button>
             </li>
         </ul>
     </div>
