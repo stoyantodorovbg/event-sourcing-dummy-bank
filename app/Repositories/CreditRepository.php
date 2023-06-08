@@ -30,4 +30,12 @@ class CreditRepository extends Repository implements CreditRepositoryInterface
 
         throw new RecordsNotFoundException();
     }
+
+    public function updateDeposit(Credit $credit, float $paymentAmount): Credit
+    {
+        $credit->deposit += $paymentAmount;
+        $credit->save();
+
+        return $credit;
+    }
 }

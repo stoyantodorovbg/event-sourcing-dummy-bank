@@ -23,4 +23,13 @@ interface CreditRepositoryInterface
      * @return Credit
      */
     public function findByCode(string $code): Credit;
+
+    /**
+     * Update deposit
+     *
+     * @param Credit $credit
+     * @param float  $paymentAmount
+     * @return Credit
+     */
+    public function updateDeposit(Credit $credit, float $paymentAmount): Credit;
 }
