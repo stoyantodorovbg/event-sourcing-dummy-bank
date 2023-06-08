@@ -40,8 +40,8 @@ class CreditRepository extends Repository implements CreditRepositoryInterface
         return $credit;
     }
 
-    public function all(array $with = []): Collection
+    public function all(array $with = [], string $orderBy = 'id', string $order = 'desc'): Collection
     {
-        return $this->model::with($with)->get();
+        return $this->model::with($with)->orderBy($orderBy, $order)->get();
     }
 }

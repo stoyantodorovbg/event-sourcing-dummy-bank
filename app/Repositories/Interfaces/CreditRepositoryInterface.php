@@ -36,7 +36,9 @@ interface CreditRepositoryInterface
 
     /**
      * @param array $with
+     * @param string $orderBy
+     * @param string $order
      * @return Collection
      */
-    public function all(array $with = []): Collection;
+    public function all(array $with = [], string $orderBy = 'id', string $order = 'desc'): Collection;
 }
