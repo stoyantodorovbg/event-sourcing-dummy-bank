@@ -2,6 +2,7 @@
 
 namespace App\Actions\Interfaces;
 
+use App\Dto\CreateCreditInput;
 use App\Models\Credit;
 
 interface CreateCreditInterface
@@ -9,8 +10,8 @@ interface CreateCreditInterface
     /**
      * Create a credit
      *
-     * @param array $data
+     * @param CreateCreditInput $data
      * @return Credit
      */
-    public function execute(array $data): Credit;
+    public function execute(CreateCreditInput $data): Credit;
 }

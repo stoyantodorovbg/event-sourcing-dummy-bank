@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Actions\Interfaces\CreateCreditInterface;
+use App\Dto\CreateCreditInput;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -37,11 +38,12 @@ class CreateCredit extends Component
     {
         $this->validate();
 
-        $this->createCredit->execute([
-            'borrowerName' => $this->borrower,
-            'amount' => $this->amount,
-            'term' => $this->term,
-        ]);
+        $input = new CreateCreditInput(
+            borrowerName: $this->borrower,
+            amount: $this->amount,
+            term: $this->term,
+        );
+        $this->createCredit->execute($input);
 
         $this->redirect(route('credits.index'));
     }

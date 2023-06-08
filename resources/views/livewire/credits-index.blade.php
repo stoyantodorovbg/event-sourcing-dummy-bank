@@ -6,6 +6,7 @@
                 <th>Due Amount</th>
                 <th>Term</th>
                 <th>Monthly Installment</th>
+                <th>Code</th>
             </tr>
         </thead>
         <tbody>
@@ -15,6 +16,7 @@
                     <td>{{ number_format($credit->due_amount, 2, '.', ',') }} BGN</td>
                     <td>{{ $credit->term }} months</td>
                     <td>{{ number_format($credit->monthly_installment, 2, '.', ',') }} BGN</td>
+                    <td>{{ $credit->code }}</td>
                 </tr>
             @endforeach
         </tbody>

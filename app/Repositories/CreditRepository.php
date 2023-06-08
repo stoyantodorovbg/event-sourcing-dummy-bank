@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Dto\CreateCredit;
 use App\Models\Credit;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\RecordsNotFoundException;
 use Illuminate\Support\Collection;
 
@@ -42,6 +43,11 @@ class CreditRepository extends Repository implements CreditRepositoryInterface
 
     public function all(array $with = [], string $orderBy = 'id', string $order = 'desc'): Collection
     {
-        return $this->model::with($with)->orderBy($orderBy, $order)->get();
+        return $this->allQuery($with, $orderBy, $order)->get();
+    }
+
+    public function allQuery(array $with = [], string $orderBy = 'id', string $order = 'desc'): Builder
+    {
+        return $this->model::with($with)->orderBy($orderBy, $order);
     }
 }

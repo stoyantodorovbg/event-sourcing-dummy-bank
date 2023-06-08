@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Actions\Interfaces\CreateCreditInterface;
+use App\Dto\CreateCreditInput;
 
 class CreditsTableSeeder extends BaseSeeder
 {
@@ -17,11 +18,12 @@ class CreditsTableSeeder extends BaseSeeder
 
         $counter = 0;
         while($counter < $this->count) {
-            $action->execute([
-                'borrowerName' => "{$this->faker->firstName()} {$this->faker->firstName()}",
-                'amount' => $this->faker->randomFloat(max: 20000),
-                'term' => rand(1, 12),
-            ]);
+            $input = new CreateCreditInput(
+                borrowerName: "{$this->faker->firstName()} {$this->faker->firstName()}",
+                amount: $this->faker->randomFloat(max: 20000),
+                term: rand(1, 12),
+            );
+            $action->execute($input);
 
             $counter++;
         }

@@ -3,7 +3,13 @@
 namespace App\Providers;
 
 use App\Actions\CreateCredit;
+use App\Actions\GetPaymentAmount;
+use App\Actions\GetPaymentRemainder;
 use App\Actions\Interfaces\CreateCreditInterface;
+use App\Actions\Interfaces\GetPaymentAmountInterface;
+use App\Actions\Interfaces\GetPaymentRemainderInterface;
+use App\Actions\Interfaces\PayInstallmentInterface;
+use App\Actions\PayInstallment;
 use App\Repositories\Interfaces\BorrowerRepositoryInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -30,5 +36,22 @@ class ActionServiceProvider extends ServiceProvider
                 resolve(CreditRepositoryInterface::class),
             ])
         );
+        $this->app->bind(
+            abstract: GetPaymentRemainderInterface::class,
+            concrete: GetPaymentRemainder::class,
+        );
+        $this->app->bind(
+            abstract: GetPaymentAmountInterface::class,
+            concrete: GetPaymentAmount::class,
+        );
+        $this->app->bind(
+            abstract: PayInstallmentInterface::class,
+            concrete: fn() => resolve(PayInstallment::class, [
+                resolve(CreditRepositoryInterface::class),
+                resolve(GetPaymentAmountInterface::class),
+                resolve(GetPaymentRemainderInterface::class),
+            ])
+        );
+
     }
 }
