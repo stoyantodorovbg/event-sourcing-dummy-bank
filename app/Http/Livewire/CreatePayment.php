@@ -51,11 +51,18 @@ class CreatePayment extends Component
             creditCode: $this->creditCode,
             deposit: $this->deposit,
         );
-        $this->payInstallment->execute($paymentInput);
+        $reminder = $this->payInstallment->execute($paymentInput);
 
         $this->emit('loadCredits');
         $this->unsetAttributes();
         $this->emit('showAlert', 'success.message', 'Payment created.');
+        if ($reminder) {
+            $this->emit(
+                'showAlert',
+                'warning.message',
+                "Тhe payment exceeds the amount due. Remainder of the deposit: {$reminder}"
+            );
+        }
     }
 
     protected function unsetAttributes(): void
