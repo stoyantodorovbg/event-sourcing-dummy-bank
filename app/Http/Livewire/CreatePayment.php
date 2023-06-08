@@ -16,11 +16,15 @@ class CreatePayment extends Component
     public Collection|null $credits = null;
 
     public string|null $creditCode;
-    public float|null $deposit;
+    public float|string|null $deposit;
 
     protected array $rules = [
         'creditCode' => 'required|string|exists:credits,code',
         'deposit' => 'required|numeric|min:1',
+    ];
+
+    protected $listeners = [
+        'loadCredits' => 'loadCredits',
     ];
 
     protected readonly CreditRepositoryInterface $creditRepository;
@@ -40,29 +44,30 @@ class CreatePayment extends Component
 
     public function mount(): void
     {
-        $this->credits = $this->creditRepository->allQuery()->pluck('code');
+        $this->loadCredits();
     }
 
     public function submit(): void
     {
         $this->validate();
 
-        $paymentInput = new PayInstallment(
+        $reminder = $this->payInstallment->execute(new PayInstallment(
             creditCode: $this->creditCode,
             deposit: $this->deposit,
-        );
-        $reminder = $this->payInstallment->execute($paymentInput);
+        ));
 
         $this->emit('loadCredits');
         $this->unsetAttributes();
         $this->emit('showAlert', 'success.message', 'Payment created.');
         if ($reminder) {
-            $this->emit(
-                'showAlert',
-                'warning.message',
-                "Тhe payment exceeds the amount due. Remainder of the deposit: {$reminder}"
-            );
+            $message = "Тhe payment exceeds the amount due. Remainder of the deposit: {$reminder}";
+            $this->emit('showAlert', 'warning.message', $message);
         }
+    }
+
+    public function loadCredits(): void
+    {
+        $this->credits = $this->creditRepository->allQuery()->pluck('code');
     }
 
     protected function unsetAttributes(): void

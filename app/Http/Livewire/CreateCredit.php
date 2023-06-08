@@ -12,16 +12,10 @@ use Livewire\Component;
 class CreateCredit extends Component
 {
     public string|null $borrower;
-    public float|null $amount;
-    public int|null $term;
+    public float|string|null $amount;
+    public int|string|null $term;
 
     protected readonly CreateCreditInterface $createCredit;
-
-    protected array $rules = [
-        'borrower' => 'required|string|min:5|max:70',
-        'amount' => 'required|numeric|min:1',
-        'term' => 'required|integer|min:1|max:12',
-    ];
 
     public function __construct($id = null)
     {
@@ -34,16 +28,24 @@ class CreateCredit extends Component
         return view('livewire.create-credit');
     }
 
+    public function rules(): array
+    {
+        return [
+            'borrower' => 'required|string|min:5|max:70',
+            'amount' => ['required', 'numeric', 'min:1', resolve('borrower-max-amount')],
+            'term' => 'required|integer|min:1|max:12',
+        ];
+    }
+
     public function submit(): void
     {
         $this->validate();
 
-        $input = new CreateCreditInput(
+        $this->createCredit->execute(new CreateCreditInput(
             borrowerName: $this->borrower,
             amount: $this->amount,
             term: $this->term,
-        );
-        $this->createCredit->execute($input);
+        ));
 
         $this->emit('loadCredits');
         $this->unsetAttributes();

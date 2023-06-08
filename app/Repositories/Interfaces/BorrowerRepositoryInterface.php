@@ -13,4 +13,12 @@ interface BorrowerRepositoryInterface
      * @return Borrower
      */
     public function findByNameOrCreate(string $name): Borrower;
+
+    /**
+     * Get the borrower's total due amount
+     *
+     * @param string $name
+     * @return float
+     */
+    public function borrowerTotalDueAmount(string $name): float;
 }

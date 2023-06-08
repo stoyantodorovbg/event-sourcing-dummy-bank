@@ -126,6 +126,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'borrowerMaxTotalAmount' => env('BORROWER_MAX_AMOUNT', 80000),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
@@ -170,6 +172,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ActionServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
+        App\Providers\RulesServiceProvider::class,
     ])->toArray(),
 
     /*
