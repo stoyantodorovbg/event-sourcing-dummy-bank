@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('borrower_id');
             $table->decimal('amount', 12, 2);
             $table->decimal('deposit', 12, 2)->default(0);
+            $table->unsignedInteger('term');
             $table->unsignedTinyInteger('status')->default(0);
             $table->string('code');
             $table->dateTime('deadline');

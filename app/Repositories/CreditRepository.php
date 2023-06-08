@@ -6,6 +6,7 @@ use App\Dto\CreateCredit;
 use App\Models\Credit;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use Illuminate\Database\RecordsNotFoundException;
+use Illuminate\Support\Collection;
 
 class CreditRepository extends Repository implements CreditRepositoryInterface
 {
@@ -37,5 +38,10 @@ class CreditRepository extends Repository implements CreditRepositoryInterface
         $credit->save();
 
         return $credit;
+    }
+
+    public function all(array $with = []): Collection
+    {
+        return $this->model::with($with)->get();
     }
 }

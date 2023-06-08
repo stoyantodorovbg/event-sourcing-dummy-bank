@@ -4,6 +4,7 @@ namespace App\Repositories\Interfaces;
 
 use App\Dto\CreateCredit;
 use App\Models\Credit;
+use Illuminate\Support\Collection;
 
 interface CreditRepositoryInterface
 {
@@ -32,4 +33,10 @@ interface CreditRepositoryInterface
      * @return Credit
      */
     public function updateDeposit(Credit $credit, float $paymentAmount): Credit;
+
+    /**
+     * @param array $with
+     * @return Collection
+     */
+    public function all(array $with = []): Collection;
 }
