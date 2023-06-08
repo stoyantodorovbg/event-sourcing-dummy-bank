@@ -1,7 +1,6 @@
 <div>
     @include('livewire.alerts.alert', ['type' => 'success'])
     @include('livewire.alerts.alert', ['type' => 'warning'])
-    @include('livewire.alerts.alert', ['type' => 'danger'])
     <table id="credits-list" class="table table-striped my-5">
         <thead>
         <tr>

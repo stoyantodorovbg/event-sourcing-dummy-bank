@@ -60,7 +60,8 @@ class CreatePayment extends Component
         $this->unsetAttributes();
         $this->emit('showAlert', 'success.message', 'Payment created.');
         if ($reminder) {
-            $message = "Тhe payment exceeds the amount due. Remainder of the deposit: {$reminder}";
+            $reminder = number_format($reminder, 2, '.', ',');
+            $message = "Тhe payment exceeds the amount due. Remainder of the deposit: {$reminder} BGN";
             $this->emit('showAlert', 'warning.message', $message);
         }
     }

@@ -32,7 +32,7 @@ class CreateCredit extends Component
     {
         return [
             'borrower' => 'required|string|min:5|max:70',
-            'amount' => ['required', 'numeric', 'min:1', resolve('borrower-max-amount')],
+            'amount' => ['required', 'numeric', 'min:1', 'max:80000', resolve('borrower-max-amount')],
             'term' => 'required|integer|min:1|max:12',
         ];
     }

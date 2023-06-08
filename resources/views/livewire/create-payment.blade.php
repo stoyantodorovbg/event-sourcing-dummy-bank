@@ -26,7 +26,7 @@
                         @error('creditCode') <p class="text-danger">{{ $message }}</p> @enderror
                     </div>
                     <div class="form-group mt-4">
-                        <input wire:model="deposit" type="number" step="100" min="0" class="form-control" id="creditAmount" placeholder="Amount">
+                        <input wire:model="deposit" type="number" step="100" min="0" class="form-control" id="creditAmount" placeholder="Amount (BGN)">
                         @error('deposit') <p class="text-danger">{{ $message }}</p> @enderror
                     </div>
             </div>

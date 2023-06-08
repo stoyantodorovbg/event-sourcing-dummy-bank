@@ -20,11 +20,11 @@
                     @error('borrower') <p class="text-danger">{{ $message }}</p> @enderror
                 </div>
                 <div class="form-group mt-4">
-                    <input wire:model="amount" type="number" step="100" min="0" class="form-control" id="creditAmount" placeholder="Amount">
+                    <input wire:model="amount" type="number" step="100" min="0" class="form-control" id="creditAmount" placeholder="Amount (BGN)">
                     @error('amount') <p class="text-danger">{{ $message }}</p> @enderror
                 </div>
                 <div class="form-group mt-4">
-                    <input wire:model="term" type="number" step="1" min="1" class="form-control" id="creditTerm" placeholder="Term">
+                    <input wire:model="term" type="number" step="1" min="1" class="form-control" id="creditTerm" placeholder="Term (months)">
                     @error('term') <p class="text-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
