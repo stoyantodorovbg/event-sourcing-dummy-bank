@@ -6,4 +6,4 @@
 - sail up
 - sail artisan migrate
 - sail artisan db:seed (to add dummy data)
-- visit {your-host}/ in the browser
+- visit {your-host}:{your-port} in the browser
