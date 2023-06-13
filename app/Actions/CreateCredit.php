@@ -3,9 +3,11 @@
 namespace App\Actions;
 
 use App\Actions\Interfaces\CreateCreditInterface;
+use App\Actions\Interfaces\GetBorrowerInterface;
 use App\Dto\CreateCredit as CreateCreditDto;
 use App\Dto\CreateCreditInput;
-use App\Models\Credit;
+use App\Events\NewCredit;
+use App\Projections\Credit;
 use App\Repositories\Interfaces\BorrowerRepositoryInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use Illuminate\Support\Str;
@@ -15,20 +17,24 @@ readonly class CreateCredit implements CreateCreditInterface
     public function __construct(
         protected BorrowerRepositoryInterface $borrowerRepository,
         protected CreditRepositoryInterface   $creditRepository,
+        protected GetBorrowerInterface        $getBorrower,
     )
     {
     }
 
     public function execute(CreateCreditInput $data): Credit
     {
+        $code = Str::uuid();
         $creditData = new CreateCreditDto(
-            borrower: $this->borrowerRepository->findByNameOrCreate($data->borrowerName),
+            borrowerId: $this->getBorrower->execute($data->borrowerName)->id,
             amount: $data->amount,
             term: $data->term,
-            code: Str::uuid(),
+            code: $code,
             deadline: now()->addMonths($data->term)->endOfDay()->toDateTimeString(),
         );
 
-        return $this->creditRepository->create($creditData);
+        NewCredit::class::dispatch($creditData);
+
+        return $this->creditRepository->findByCode($code);
     }
 }

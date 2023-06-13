@@ -2,17 +2,17 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\Borrower;
+use App\Projections\Borrower;
 
 interface BorrowerRepositoryInterface
 {
     /**
-     * Find a borrower by name or create a new borrower
+     * Find a borrower by name
      *
      * @param string $name
-     * @return Borrower
+     * @return Borrower|null
      */
-    public function findByNameOrCreate(string $name): Borrower;
+    public function findByName(string $name): Borrower|null;
 
     /**
      * Get the borrower's total due amount

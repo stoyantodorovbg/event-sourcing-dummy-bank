@@ -3,7 +3,7 @@
 namespace App\Actions\Interfaces;
 
 use App\Dto\CreateCreditInput;
-use App\Models\Credit;
+use App\Projections\Credit;
 
 interface CreateCreditInterface
 {

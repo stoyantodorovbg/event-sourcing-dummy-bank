@@ -2,7 +2,7 @@
 
 namespace App\Actions\Interfaces;
 
-use App\Models\Credit;
+use App\Projections\Credit;
 
 interface GetPaymentAmountInterface
 {

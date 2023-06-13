@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Projections;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Borrower extends Model
+class Borrower extends BaseProjection
 {
     protected $fillable = ['name'];
 

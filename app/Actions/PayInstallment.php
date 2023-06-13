@@ -7,6 +7,7 @@ use App\Actions\Interfaces\GetPaymentRemainderInterface;
 use App\Actions\Interfaces\PayInstallmentInterface;
 use App\Dto\PayInstallment as PayInstallmentDto;
 use App\Enums\Models\CreditStatus;
+use App\Events\UpdateCreditDeposit;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 
 readonly class PayInstallment implements PayInstallmentInterface
@@ -27,7 +28,7 @@ readonly class PayInstallment implements PayInstallmentInterface
             $deposit = $data->deposit;
             $remainder = $this->getPaymentRemainder->execute($credit, $data->deposit);
             $paymentAmount = $this->getPaymentAmount->execute($deposit, $remainder);
-            $this->creditRepository->updateDeposit($credit, $paymentAmount);
+            UpdateCreditDeposit::dispatch($credit, $paymentAmount);
         }
 
         return $remainder;

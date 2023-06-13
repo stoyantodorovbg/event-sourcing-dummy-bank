@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Borrower;
+use App\Projections\Borrower;
 use App\Repositories\Interfaces\BorrowerRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
@@ -10,9 +10,9 @@ class BorrowerRepository extends Repository implements BorrowerRepositoryInterfa
 {
     protected string $model = Borrower::class;
 
-    public function findByNameOrCreate(string $name): Borrower
+    public function findByName(string $name): Borrower|null
     {
-        return $this->model::firstOrCreate(compact('name'));
+        return $this->model::where(compact('name'))->first();
     }
 
     public function borrowerTotalDueAmount(string $name): float

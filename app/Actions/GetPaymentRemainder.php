@@ -3,7 +3,7 @@
 namespace App\Actions;
 
 use App\Actions\Interfaces\GetPaymentRemainderInterface;
-use App\Models\Credit;
+use App\Projections\Credit;
 
 class GetPaymentRemainder implements GetPaymentRemainderInterface
 {
