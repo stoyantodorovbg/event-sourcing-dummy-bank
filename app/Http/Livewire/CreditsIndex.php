@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\Interfaces\FormatMoneyInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,6 +15,7 @@ class CreditsIndex extends Component
     public Collection|null $credits = null;
 
     protected readonly CreditRepositoryInterface $creditRepository;
+    protected readonly FormatMoneyInterface $formatMoney;
 
     protected $listeners = [
         'loadCredits' => 'loadCredits',
@@ -24,6 +26,7 @@ class CreditsIndex extends Component
     {
         parent::__construct($id);
         $this->creditRepository = resolve(CreditRepositoryInterface::class);
+        $this->formatMoney = resolve(FormatMoneyInterface::class);
     }
 
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application

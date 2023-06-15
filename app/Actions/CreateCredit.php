@@ -26,7 +26,7 @@ readonly class CreateCredit implements CreateCreditInterface
     {
         $code = Str::uuid();
         $creditData = new CreateCreditDto(
-            borrowerId: $this->getBorrower->execute($data->borrowerName)->id,
+            borrowerUuid: $this->getBorrower->execute($data->borrowerName)->uuid,
             amount: $data->amount,
             term: $data->term,
             code: $code,

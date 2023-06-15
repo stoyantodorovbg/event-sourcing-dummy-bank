@@ -22,12 +22,12 @@ class CreditRepository extends Repository implements CreditRepositoryInterface
         throw new RecordsNotFoundException();
     }
 
-    public function all(array $with = [], string $orderBy = 'id', string $order = 'desc'): Collection
+    public function all(array $with = [], string $orderBy = 'created_at', string $order = 'desc'): Collection
     {
         return $this->allQuery($with, $orderBy, $order)->get();
     }
 
-    public function allQuery(array $with = [], string $orderBy = 'id', string $order = 'desc'): Builder
+    public function allQuery(array $with = [], string $orderBy = 'created_at', string $order = 'desc'): Builder
     {
         return $this->model::with($with)->orderBy($orderBy, $order);
     }

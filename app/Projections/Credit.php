@@ -2,10 +2,13 @@
 
 namespace App\Projections;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Credit extends BaseProjection
 {
+    use HasFactory;
+
     protected $primaryKey = 'id';
     protected $appends = ['due_amount', 'monthly_installment'];
 

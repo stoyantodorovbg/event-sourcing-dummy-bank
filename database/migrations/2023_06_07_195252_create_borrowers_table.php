@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('borrowers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();;
             $table->string('name', 70)->unique();
             $table->timestamps();
         });

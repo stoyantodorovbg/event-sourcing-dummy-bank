@@ -7,7 +7,7 @@ use App\Projections\Borrower;
 readonly class CreateCredit
 {
     public function __construct(
-        public int $borrowerId,
+        public string $borrowerUuid,
         public float $amount,
         public int $term,
         public string $code,

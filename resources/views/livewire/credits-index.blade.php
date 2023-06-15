@@ -15,9 +15,9 @@
         @foreach($this->credits as $credit)
             <tr wire:key="credits-list-{{ $loop->index }}">
                 <td>{{ $credit->borrower->name }}</td>
-                <td>{{ number_format($credit->due_amount, 2, '.', ',') }} BGN</td>
+                <td>{{ $this->formatMoney->execute($credit->due_amount) }} BGN</td>
                 <td>{{ $credit->term }} months</td>
-                <td>{{ number_format($credit->monthly_installment, 2, '.', ',') }} BGN</td>
+                <td>{{ $this->formatMoney->execute($credit->monthly_installment) }} BGN</td>
                 <td>{{ $credit->code }}</td>
             </tr>
         @endforeach

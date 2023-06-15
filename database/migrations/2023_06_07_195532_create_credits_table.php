@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('credits', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('borrower_id');
+            $table->uuid()->primary();;
+            $table->uuid('borrower_uuid');
             $table->decimal('amount', 12, 2);
             $table->decimal('deposit', 12, 2)->default(0);
             $table->unsignedInteger('term');
@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->foreign('borrower_id')->references('id')->on('borrowers')->onDelete('cascade');
+            $table->foreign('borrower_uuid')->references('uuid')->on('borrowers')->onDelete('cascade');
         });
     }
 

@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Actions\CreateCredit;
+use App\Actions\FormatMoney;
 use App\Actions\GetBorrower;
 use App\Actions\GetPaymentAmount;
 use App\Actions\GetPaymentRemainder;
 use App\Actions\Interfaces\CreateCreditInterface;
+use App\Actions\Interfaces\FormatMoneyInterface;
 use App\Actions\Interfaces\GetBorrowerInterface;
 use App\Actions\Interfaces\GetPaymentAmountInterface;
 use App\Actions\Interfaces\GetPaymentRemainderInterface;
@@ -60,5 +62,6 @@ class ActionServiceProvider extends ServiceProvider
                 resolve(BorrowerRepositoryInterface::class),
             ])
         );
+        $this->app->bind(FormatMoneyInterface::class, FormatMoney::class);
     }
 }
