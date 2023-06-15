@@ -2,16 +2,18 @@
 
 namespace App\Dto;
 
-use App\Projections\Borrower;
+use Illuminate\Support\Carbon;
 
 readonly class CreateCredit
 {
     public function __construct(
+        public string $uuid,
         public string $borrowerUuid,
         public float $amount,
         public int $term,
         public string $code,
-        public string $deadline,
+        public Carbon $deadline,
+        public Carbon $createdAt,
     )
     {
     }

@@ -26,11 +26,13 @@ readonly class CreateCredit implements CreateCreditInterface
     {
         $code = Str::uuid();
         $creditData = new CreateCreditDto(
+            uuid: Str::uuid(),
             borrowerUuid: $this->getBorrower->execute($data->borrowerName)->uuid,
             amount: $data->amount,
             term: $data->term,
             code: $code,
-            deadline: now()->addMonths($data->term)->endOfDay()->toDateTimeString(),
+            deadline: now()->addMonths($data->term)->endOfDay(),
+            createdAt: now(),
         );
 
         NewCredit::class::dispatch($creditData);

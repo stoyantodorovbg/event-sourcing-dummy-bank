@@ -7,6 +7,7 @@ use App\Dto\CreateBorrower;
 use App\Events\NewBorrower;
 use App\Projections\Borrower;
 use App\Repositories\Interfaces\BorrowerRepositoryInterface;
+use Illuminate\Support\Str;
 
 readonly class GetBorrower implements GetBorrowerInterface
 {
@@ -19,7 +20,11 @@ readonly class GetBorrower implements GetBorrowerInterface
     public function execute(string $borrowerName): Borrower
     {
          if (! $borrower = $this->fetchBorrower($borrowerName)) {
-             NewBorrower::dispatch(new CreateBorrower($borrowerName));
+             NewBorrower::dispatch(new CreateBorrower(
+                 uuid: Str::uuid(),
+                 name: $borrowerName,
+                 createdAt: now(),
+             ));
              $borrower = $this->fetchBorrower($borrowerName);
          }
 
