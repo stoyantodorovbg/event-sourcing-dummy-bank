@@ -3,21 +3,21 @@
 namespace App\Actions;
 
 use App\Actions\Interfaces\CreateCreditInterface;
-use App\Actions\Interfaces\GetBorrowerInterface;
+use App\Actions\Interfaces\GetCustomerInterface;
 use App\Dto\CreateCredit as CreateCreditDto;
 use App\Dto\CreateCreditInput;
 use App\Events\NewCredit;
 use App\Projections\Credit;
-use App\Repositories\Interfaces\BorrowerRepositoryInterface;
+use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use Illuminate\Support\Str;
 
 readonly class CreateCredit implements CreateCreditInterface
 {
     public function __construct(
-        protected BorrowerRepositoryInterface $borrowerRepository,
+        protected CustomerRepositoryInterface $customerRepository,
         protected CreditRepositoryInterface   $creditRepository,
-        protected GetBorrowerInterface        $getBorrower,
+        protected GetCustomerInterface        $getCustomer,
     )
     {
     }
@@ -27,7 +27,7 @@ readonly class CreateCredit implements CreateCreditInterface
         $code = Str::uuid();
         $creditData = new CreateCreditDto(
             uuid: Str::uuid(),
-            borrowerUuid: $this->getBorrower->execute($data->borrowerName)->uuid,
+            customerUuid: $this->getCustomer->execute($data->customerName)->uuid,
             amount: $data->amount,
             term: $data->term,
             code: $code,

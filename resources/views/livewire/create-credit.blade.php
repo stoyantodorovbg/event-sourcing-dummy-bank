@@ -16,8 +16,8 @@
             </div>
             <div class="modal-body">
                 <div class="form-group mt-4">
-                    <input wire:model="borrower" type="text" class="form-control" id="borrowerName" placeholder="Borrower Name">
-                    @error('borrower') <p class="text-danger">{{ $message }}</p> @enderror
+                    <input wire:model="customer" type="text" class="form-control" id="customerName" placeholder="Customer Name">
+                    @error('customer') <p class="text-danger">{{ $message }}</p> @enderror
                 </div>
                 <div class="form-group mt-4">
                     <input wire:model="amount" type="number" step="100" min="0" class="form-control" id="creditAmount" placeholder="Amount (BGN)">

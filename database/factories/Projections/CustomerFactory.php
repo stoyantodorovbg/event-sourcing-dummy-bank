@@ -2,13 +2,13 @@
 
 namespace Database\Factories\Projections;
 
-use App\Projections\Borrower;
+use App\Projections\Customer;
 use Database\Factories\BaseFactory;
 use Illuminate\Support\Str;
 
-class BorrowerFactory extends BaseFactory
+class CustomerFactory extends BaseFactory
 {
-    protected $model = Borrower::class;
+    protected $model = Customer::class;
 
     public function definition(): array
     {

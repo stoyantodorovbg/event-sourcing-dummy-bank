@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Feature\Pages\Home;
+namespace Tests\Feature\Pages\Credits;
 
 use App\Actions\Interfaces\FormatMoneyInterface;
-use App\Projections\Borrower;
 use App\Projections\Credit;
 use Livewire\Livewire;
 use Tests\TestCase;

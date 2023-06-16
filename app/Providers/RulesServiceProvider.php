@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Repositories\Interfaces\BorrowerRepositoryInterface;
-use App\Rules\BorrowerMaxAmount;
+use App\Repositories\Interfaces\CustomerRepositoryInterface;
+use App\Rules\CustomerMaxDueAmount;
 use Illuminate\Support\ServiceProvider;
 
 class RulesServiceProvider extends ServiceProvider
@@ -22,9 +22,9 @@ class RulesServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(
-            abstract: 'borrower-max-amount',
-            concrete: fn() => resolve(BorrowerMaxAmount::class, [
-                resolve(BorrowerRepositoryInterface::class),
+            abstract: 'customer-max-due-amount',
+            concrete: fn() => resolve(CustomerMaxDueAmount::class, [
+                resolve(CustomerRepositoryInterface::class),
             ])
         );
     }

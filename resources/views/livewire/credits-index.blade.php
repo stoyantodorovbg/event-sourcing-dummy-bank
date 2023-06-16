@@ -4,7 +4,7 @@
     <table id="credits-list" class="table table-striped my-5">
         <thead>
         <tr>
-            <th>Borrower Name</th>
+            <th>Customer Name</th>
             <th>Due Amount</th>
             <th>Term</th>
             <th>Monthly Installment</th>
@@ -14,7 +14,7 @@
         <tbody>
         @foreach($this->credits as $credit)
             <tr wire:key="credits-list-{{ $loop->index }}">
-                <td>{{ $credit->borrower->name }}</td>
+                <td>{{ $credit->customer->name }}</td>
                 <td>{{ $this->formatMoney->execute($credit->due_amount) }} BGN</td>
                 <td>{{ $credit->term }} months</td>
                 <td>{{ $this->formatMoney->execute($credit->monthly_installment) }} BGN</td>

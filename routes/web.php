@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CreditsController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// These routes should require authentication
-Route::get('/', [CreditsController::class, 'index'])->name('credits.index');
+Route::get('/', [HomeController::class, 'home'])->name('home.home');
+Route::get('/credits', [CreditsController::class, 'index'])->name('credits.index');
 

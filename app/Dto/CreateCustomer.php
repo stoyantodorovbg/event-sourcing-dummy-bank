@@ -4,7 +4,7 @@ namespace App\Dto;
 
 use Illuminate\Support\Carbon;
 
-readonly class CreateBorrower
+readonly class CreateCustomer
 {
     public function __construct(
         public string $uuid,

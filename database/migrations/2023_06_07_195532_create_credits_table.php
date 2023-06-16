@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('credits', function (Blueprint $table) {
             $table->uuid()->primary();;
-            $table->uuid('borrower_uuid');
+            $table->uuid('customer_uuid');
             $table->decimal('amount', 12, 2);
             $table->decimal('deposit', 12, 2)->default(0);
             $table->unsignedInteger('term');
@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->foreign('borrower_uuid')->references('uuid')->on('borrowers')->onDelete('cascade');
+            $table->foreign('customer_uuid')->references('uuid')->on('customers')->onDelete('cascade');
         });
     }
 

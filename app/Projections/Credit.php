@@ -12,9 +12,9 @@ class Credit extends BaseProjection
     protected $primaryKey = 'id';
     protected $appends = ['due_amount', 'monthly_installment'];
 
-    public function borrower(): BelongsTo
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(Borrower::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function getDueAmountAttribute(): float

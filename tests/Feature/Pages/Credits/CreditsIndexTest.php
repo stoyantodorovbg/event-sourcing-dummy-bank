@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Pages\Home;
+namespace Tests\Feature\Pages\Credits;
 
 use App\Actions\Interfaces\FormatMoneyInterface;
 use App\Projections\Credit;
@@ -18,9 +18,10 @@ class CreditsIndexTest extends TestCase
     }
 
     /** @test */
-    public function home_page_returns_a_successful_response(): void
+    public function credits_page_returns_a_successful_response(): void
     {
-        $response = $this->get('/')
+        $response = $this->get(route('credits.index'))
+            ->assertSee('Home')
             ->assertSee('Credits')
             ->assertSee('Create Credit')
             ->assertSee('Create Payment');
@@ -38,7 +39,7 @@ class CreditsIndexTest extends TestCase
                 ->assertSee($this->formatMoney->execute($credit->monthly_installment))
                 ->assertSee($credit->term)
                 ->assertSee($credit->code)
-                ->assertSee($credit->borrower->name);
+                ->assertSee($credit->customer->name);
         }
     }
 }

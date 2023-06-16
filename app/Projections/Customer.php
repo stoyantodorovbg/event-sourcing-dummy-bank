@@ -5,7 +5,7 @@ namespace App\Projections;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Borrower extends BaseProjection
+class Customer extends BaseProjection
 {
     use HasFactory;
 

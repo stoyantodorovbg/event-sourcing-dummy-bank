@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Projections;
 
-use App\Projections\Borrower;
+use App\Projections\Customer;
 use App\Projections\Credit;
 use Database\Factories\BaseFactory;
 use Illuminate\Support\Str;
@@ -20,7 +20,7 @@ class CreditFactory extends BaseFactory
 
         return [
             'uuid' => Str::uuid(),
-            'borrower_uuid' => Borrower::factory()->create(),
+            'customer_uuid' => Customer::factory()->create(),
             'amount' => fake()->randomFloat(2, 100, 10000),
             'term' => $term,
             'code' => Str::uuid(),

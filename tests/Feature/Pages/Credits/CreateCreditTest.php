@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Feature\Pages\Home;
+namespace Tests\Feature\Pages\Credits;
 
-use App\Projections\Borrower;
+use App\Projections\Customer;
 use App\Projections\Credit;
 use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
@@ -13,7 +13,7 @@ class CreateCreditTest extends TestCase
     use WithFaker;
 
     protected array $creditData = [
-        'borrower' => 'Borrower Names',
+        'customer' => 'Customer Names',
         'amount' => 333.33,
         'term' => 12,
     ];
@@ -22,12 +22,12 @@ class CreateCreditTest extends TestCase
     public function create_credit_form_fields_and_buttons(): void
     {
         Livewire::test('create-credit')
-            ->assertSee('Borrower Name')
+            ->assertSee('Customer Name')
             ->assertSee('Amount (BGN)')
             ->assertSee('Term')
             ->assertSee('Create')
             ->assertSee('Close')
-            ->assertSee('borrower')
+            ->assertSee('customer')
             ->assertSee('amount')
             ->assertSee('term');
     }
@@ -36,7 +36,7 @@ class CreateCreditTest extends TestCase
     public function create_credit_sets_the_entered_inputs(): void
     {
         Livewire::test('create-credit', $this->creditData)
-            ->assertSet('borrower', $this->creditData['borrower'])
+            ->assertSet('customer', $this->creditData['customer'])
             ->assertSet('amount', $this->creditData['amount'])
             ->assertSet('term', $this->creditData['term']);
     }
@@ -49,8 +49,8 @@ class CreateCreditTest extends TestCase
             'amount' => $this->creditData['amount'],
             'term' => $this->creditData['term'],
         ]);
-        $this->assertDataBaseHas('borrowers', [
-            'name' => $this->creditData['borrower'],
+        $this->assertDataBaseHas('customers', [
+            'name' => $this->creditData['customer'],
         ]);
     }
 
@@ -59,59 +59,59 @@ class CreateCreditTest extends TestCase
     {
         Livewire::test('create-credit', $this->creditData)->call('submit');
         Livewire::test('credits-index')
-            ->assertSee($this->creditData['borrower'])
+            ->assertSee($this->creditData['customer'])
             ->assertSee($this->creditData['amount'])
             ->assertSee('term', $this->creditData['term']);
     }
 
     /** @test */
-    public function when_enter_name_of_existing_borrower_the_credit_is_assigned_to_him(): void
+    public function when_enter_name_of_existing_customer_the_credit_is_assigned_to_him(): void
     {
-        $borrower = Borrower::factory()->create();
+        $customer = Customer::factory()->create();
         $creditData = $this->creditData;
-        $creditData['borrower'] = $borrower->name;
+        $creditData['customer'] = $customer->name;
         Livewire::test('create-credit', $creditData)->call('submit');
-        $this->assertDatabaseCount('borrowers', 1);
+        $this->assertDatabaseCount('customers', 1);
         $this->assertDatabaseCount('credits', 1);
-        $this->assertEquals(Borrower::first()->uuid, Credit::first()->borrower_uuid);
+        $this->assertEquals(Customer::first()->uuid, Credit::first()->customer_uuid);
     }
 
     /** @test */
-    public function when_create_a_credit_with_new_borrower_name_a_borrower_is_created(): void
+    public function when_create_a_credit_with_new_customer_name_a_customer_is_created(): void
     {
         for($i = 0; $i < 10; $i++) {
-            Borrower::factory()->create(['name' => $this->faker->unique()->name]);
+            Customer::factory()->create(['name' => $this->faker->unique()->name]);
         }
         $creditData = $this->creditData;
-        $creditData['borrower'] = $this->faker->unique()->name;
+        $creditData['customer'] = $this->faker->unique()->name;
         Livewire::test('create-credit', $creditData)->call('submit');
-        $this->assertDatabaseCount('borrowers', 11);
+        $this->assertDatabaseCount('customers', 11);
     }
 
     /** @test */
-    public function borrower_can_not_have_credits_with_total_amount_more_then_80000(): void
+    public function customer_can_not_have_credits_with_total_amount_more_then_80000(): void
     {
-        $borrower = Borrower::factory()->create();
+        $customer = Customer::factory()->create();
         Credit::factory()->create([
-            'borrower_uuid' => $borrower->uuid,
+            'customer_uuid' => $customer->uuid,
             'amount' => 79998,
         ]);
         $this->assertDatabaseCount('credits', 1);
         Livewire::test('create-credit', [
-            'borrower' => $borrower->name,
+            'customer' => $customer->name,
             'amount' => 1,
             'term' => 1,
         ])->call('submit');
         $this->assertDatabaseCount('credits', 2);
         Livewire::test('create-credit', [
-            'borrower' => $borrower->name,
+            'customer' => $customer->name,
             'amount' => 2,
             'term' => 1,
         ])->call('submit');
         $this->assertDatabaseCount('credits', 2);
 
         Livewire::test('create-credit', [
-            'borrower' => $this->faker->name,
+            'customer' => $this->faker->name,
             'amount' => 2,
             'term' => 1,
         ])->call('submit');
@@ -121,14 +121,14 @@ class CreateCreditTest extends TestCase
     /** @test */
     public function when_part_of_due_amount_has_been_paid__new_credits_up_to_80000_can_be_created(): void
     {
-        $borrower = Borrower::factory()->create();
+        $customer = Customer::factory()->create();
         $credit = Credit::factory()->create([
-            'borrower_uuid' => $borrower->uuid,
+            'customer_uuid' => $customer->uuid,
             'amount' => 79999,
         ]);
         $this->assertDatabaseCount('credits', 1);
         Livewire::test('create-credit', [
-            'borrower' => $borrower->name,
+            'customer' => $customer->name,
             'amount' => 2,
             'term' => 1,
         ])->call('submit');
@@ -138,7 +138,7 @@ class CreateCreditTest extends TestCase
             'deposit' => 100,
         ])->call('submit');
         Livewire::test('create-credit', [
-            'borrower' => $borrower->name,
+            'customer' => $customer->name,
             'amount' => 100,
             'term' => 1,
         ])->call('submit');

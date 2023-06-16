@@ -41,7 +41,7 @@ class CreditsIndex extends Component
 
     public function loadCredits(): void
     {
-        $this->credits = $this->creditRepository->all(['borrower']);
+        $this->credits = $this->creditRepository->all(['customer']);
     }
 
     public function showAlert(string $sessionKey, string $message): void

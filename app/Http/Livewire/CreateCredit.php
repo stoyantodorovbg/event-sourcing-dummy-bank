@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class CreateCredit extends Component
 {
-    public string|null $borrower;
+    public string|null $customer;
     public float|string|null $amount;
     public int|string|null $term;
 
@@ -31,8 +31,8 @@ class CreateCredit extends Component
     public function rules(): array
     {
         return [
-            'borrower' => 'required|string|min:5|max:70',
-            'amount' => ['required', 'numeric', 'min:1', 'max:80000', resolve('borrower-max-amount')],
+            'customer' => 'required|string|min:5|max:70',
+            'amount' => ['required', 'numeric', 'min:1', 'max:80000', resolve('customer-max-due-amount')],
             'term' => 'required|integer|min:1|max:12',
         ];
     }
@@ -42,7 +42,7 @@ class CreateCredit extends Component
         $this->validate();
 
         $this->createCredit->execute(new CreateCreditInput(
-            borrowerName: $this->borrower,
+            customerName: $this->customer,
             amount: $this->amount,
             term: $this->term,
         ));
@@ -54,7 +54,7 @@ class CreateCredit extends Component
 
     protected function unsetAttributes(): void
     {
-        $this->borrower = null;
+        $this->customer = null;
         $this->amount = null;
         $this->term = null;
     }

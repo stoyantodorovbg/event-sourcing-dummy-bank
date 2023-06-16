@@ -126,7 +126,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    'borrowerMaxTotalAmount' => env('BORROWER_MAX_AMOUNT', 80000),
+    'customerMaxTotalAmount' => env('BORROWER_MAX_AMOUNT', 80000),
 
     /*
     |--------------------------------------------------------------------------
