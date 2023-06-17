@@ -80,7 +80,7 @@ class CreateDepositTest extends TestCase
     }
 
     /** @test */
-    public function when_the_deposit_exeeds_due_amount_only_the_due_amount_is_deposited()
+    public function when_the_deposit_exeeds_allowable_amount_only_the_allowable_amount_is_deposited()
     {
         $credit = Credit::factory()->create([
             'amount' => 10000,

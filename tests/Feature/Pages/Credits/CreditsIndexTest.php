@@ -36,7 +36,7 @@ class CreditsIndexTest extends TestCase
         $credits = Credit::factory()->count(10)->create();
         foreach($credits as $credit) {
             Livewire::test('credits-index')
-                ->assertSee($this->formatMoney->execute($credit->due_amount))
+                ->assertSee($this->formatMoney->execute($credit->allowable_amount))
                 ->assertSee($this->formatMoney->execute($credit->monthly_installment))
                 ->assertSee($credit->term)
                 ->assertSee($credit->serial)

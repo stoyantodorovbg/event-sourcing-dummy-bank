@@ -18,8 +18,8 @@ class CreditProjector extends BaseProjector
 
     public function onUpdateCreditDeposit(UpdateCreditDeposit $event): Projection
     {
-        $credit = $this->getWritable($event->credit);
-        $credit->deposit += $event->depositAmount;
+        $credit = $this->getWritable($event->attributes->depositable);
+        $credit->deposit += $event->attributes->amount;
         $credit->save();
 
         return $credit;

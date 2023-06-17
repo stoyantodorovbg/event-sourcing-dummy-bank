@@ -4,8 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Actions\Interfaces\CreateDepositInterface;
 use App\Dto\CreateDeposit as CreateDepositDto;
+use App\Dto\CreateDepositInput;
 use App\Http\Livewire\Traits\CreateCustomer;
 use App\Http\Livewire\Traits\UnsetAttributes;
+use App\Projections\Credit;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -55,9 +57,10 @@ class CreateDeposit extends Component
     {
         $this->validate();
 
-        $reminder = $this->payInstallment->execute(new CreateDepositDto(
-            creditSerial: $this->creditSerial,
-            deposit: $this->deposit,
+        $reminder = $this->payInstallment->execute(new CreateDepositInput(
+            depositableSerial: $this->creditSerial,
+            depositableType: Credit::class,
+            amount: $this->deposit,
         ));
 
         $this->emit('loadCredits');

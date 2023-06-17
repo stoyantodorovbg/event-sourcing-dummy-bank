@@ -2,16 +2,16 @@
 
 namespace App\Actions\Interfaces;
 
-use App\Projections\Credit;
+use Spatie\EventSourcing\Projections\Projection;
 
 interface GetDepositRemainderInterface
 {
     /**
      * Get the remainder from deposit
      *
-     * @param Credit $credit
+     * @param Projection $credit
      * @param float  $deposit
      * @return float
      */
-    public function execute(Credit $credit, float $deposit): float;
+    public function execute(Projection $credit, float $deposit): float;
 }

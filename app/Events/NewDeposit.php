@@ -2,19 +2,18 @@
 
 namespace App\Events;
 
-use App\Dto\UpdateDepositable;
+use App\Dto\CreateDeposit;
 use Illuminate\Foundation\Events\Dispatchable;
 use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 
-class UpdateCreditDeposit extends ShouldBeStored
+class NewDeposit extends ShouldBeStored
 {
     use Dispatchable;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public UpdateDepositable $attributes)
+    public function __construct(public CreateDeposit $attributes)
     {
-        //
     }
 }

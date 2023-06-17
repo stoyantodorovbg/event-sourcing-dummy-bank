@@ -10,7 +10,6 @@ use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class CreateCredit extends Component

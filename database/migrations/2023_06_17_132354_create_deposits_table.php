@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('deposits', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();
+            $table->string('depositable_serial', 30)->unique();
+            $table->string('depositable_type', 100);
+            $table->string('serial', 30)->unique();
+            $table->decimal('amount', 12);
             $table->timestamps();
         });
     }

@@ -3,16 +3,16 @@
 namespace App\Actions;
 
 use App\Actions\Interfaces\GetDepositRemainderInterface;
-use App\Projections\Credit;
+use Spatie\EventSourcing\Projections\Projection;
 
 class GetDepositRemainder implements GetDepositRemainderInterface
 {
-    public function execute(Credit $credit, float $deposit): float
+    public function execute(Projection $depositable, float $deposit): float
     {
-        if ($deposit <= $credit->due_amount) {
+        if ($deposit <= $depositable->allowable_amount) {
             return 0.0;
         }
 
-        return $deposit - $credit->due_amount;
+        return $deposit - $depositable->allowable_amount;
     }
 }

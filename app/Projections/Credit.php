@@ -2,22 +2,25 @@
 
 namespace App\Projections;
 
+use App\Projections\Interfaces\HasDeposits;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use App\Projections\Traits\HasDeposits as HasDepositsTrait;
 
-class Credit extends BaseProjection
+class Credit extends BaseProjection implements HasDeposits
 {
-    use HasFactory;
+    use HasFactory, HasDepositsTrait;
 
     protected $primaryKey = 'id';
-    protected $appends = ['due_amount', 'monthly_installment'];
+    protected $appends = ['allowable_amount', 'monthly_installment'];
 
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class, 'customer_serial', 'serial');
     }
 
-    public function getDueAmountAttribute(): float
+    public function getAllowableAmountAttribute(): float
     {
         return $this->amount - $this->deposit;
     }

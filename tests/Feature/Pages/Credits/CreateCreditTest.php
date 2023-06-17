@@ -129,7 +129,7 @@ class CreateCreditTest extends TestCase
     }
 
     /** @test */
-    public function when_part_of_due_amount_has_been_paid__new_credits_up_to_80000_can_be_created(): void
+    public function when_part_of_allowable_amount_has_been_paid__new_credits_up_to_80000_can_be_created(): void
     {
         $customer = Customer::factory()->create();
         $credit = Credit::factory()->create([

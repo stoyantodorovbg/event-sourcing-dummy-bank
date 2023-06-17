@@ -73,6 +73,7 @@ class ActionServiceProvider extends ServiceProvider
                 resolve(CreditRepositoryInterface::class),
                 resolve(GetDepositAmountInterface::class),
                 resolve(GetDepositRemainderInterface::class),
+                resolve(GetSerialNumberInterface::class),
             ])
         );
 
