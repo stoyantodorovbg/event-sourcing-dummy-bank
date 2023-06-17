@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Actions\Interfaces\PayInstallmentInterface;
 use App\Dto\PayInstallment;
+use App\Http\Livewire\Traits\CreateCustomer;
+use App\Http\Livewire\Traits\UnsetAttributes;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -13,6 +15,8 @@ use Livewire\Component;
 
 class CreatePayment extends Component
 {
+    use UnsetAttributes, CreateCustomer;
+
     public Collection|null $creditsSerials = null;
 
     public string|null $creditSerial;
@@ -22,10 +26,10 @@ class CreatePayment extends Component
         'creditSerial' => 'required|string|exists:credits,serial',
         'deposit' => 'required|numeric|min:1',
     ];
-
     protected $listeners = [
         'loadCredits' => 'loadCredits',
     ];
+    protected array $attributesToUnset = ['creditSerial', 'deposit'];
 
     protected readonly CreditRepositoryInterface $creditRepository;
     protected readonly PayInstallmentInterface $payInstallment;
@@ -70,11 +74,5 @@ class CreatePayment extends Component
     public function loadCredits(): void
     {
         $this->creditsSerials = $this->creditRepository->allQuery()->pluck('serial');
-    }
-
-    protected function unsetAttributes(): void
-    {
-        $this->creditSerial = null;
-        $this->deposit = null;
     }
 }

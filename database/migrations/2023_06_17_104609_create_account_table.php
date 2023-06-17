@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->string('name', 70);
+            $table->string('customer_serial', 30);
+            $table->decimal('amount', 12)->default(0);
             $table->string('serial', 30)->unique();
             $table->timestamps();
+
+            $table->foreign('customer_serial')->references('serial')->on('customers');
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('accounts');
     }
 };

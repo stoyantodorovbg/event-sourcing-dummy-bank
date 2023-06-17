@@ -22,7 +22,7 @@ readonly class PayInstallment implements PayInstallmentInterface
 
     public function execute(PayInstallmentDto $data): float
     {
-        $credit = $this->creditRepository->findByCode($data->creditSerial);
+        $credit = $this->creditRepository->findBySerial($data->creditSerial);
         $remainder = 0.0;
         if ($credit->status === CreditStatus::PENDING->value) {
             $deposit = $data->deposit;

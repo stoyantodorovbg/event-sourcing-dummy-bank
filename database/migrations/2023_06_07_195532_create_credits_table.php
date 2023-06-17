@@ -12,18 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('credits', function (Blueprint $table) {
-            $table->uuid()->primary();;
-            $table->uuid('customer_serial');
-            $table->decimal('amount', 12, 2);
-            $table->decimal('deposit', 12, 2)->default(0);
+            $table->uuid()->primary();
+            $table->string('customer_serial', 30);
+            $table->decimal('amount', 12);
+            $table->decimal('deposit', 12)->default(0);
             $table->unsignedInteger('term');
             $table->unsignedTinyInteger('status')->default(0);
-            $table->string('serial')->unique();
+            $table->string('serial', 30)->unique();
             $table->dateTime('deadline');
-
             $table->timestamps();
 
-            $table->foreign('customer_serial')->references('serial')->on('customers')->onDelete('cascade');
+            $table->foreign('customer_serial')->references('serial')->on('customers');
         });
     }
 

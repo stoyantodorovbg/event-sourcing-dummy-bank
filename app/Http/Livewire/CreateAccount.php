@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use App\Actions\Interfaces\CreateCreditInterface;
-use App\Dto\CreateCreditInput;
+use App\Actions\Interfaces\CreateAccountInterface;
+use App\Dto\CreateAccountInput;
 use App\Http\Livewire\Traits\CreateCustomer;
 use App\Http\Livewire\Traits\UnsetAttributes;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
@@ -13,33 +13,34 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
-class CreateCredit extends Component
+class CreateAccount extends Component
 {
     use UnsetAttributes, CreateCustomer;
 
     public string|null $customerName = null;
     public string|null $customerSerial = null;
     public float|string|null $amount;
-    public int|string|null $term;
 
-    protected readonly CreateCreditInterface $createCredit;
+    public Collection|null $customersSerials = null;
+
+    protected readonly CreateAccountInterface $createAccount;
     protected readonly CustomerRepositoryInterface $customerRepository;
 
     protected $listeners = [
         'loadCustomers' => 'loadCustomers',
     ];
-    protected array $attributesToUnset = ['customerName', 'customerSerial','amount', 'term'];
+    protected array $attributesToUnset = ['customerName', 'customerSerial','amount'];
 
     public function __construct($id = null)
     {
         parent::__construct($id);
-        $this->createCredit = resolve(CreateCreditInterface::class);
+        $this->createAccount = resolve(CreateAccountInterface::class);
         $this->customerRepository = resolve(CustomerRepositoryInterface::class);
     }
 
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('livewire.create-credit');
+        return view('livewire.create-account');
     }
 
     public function mount(): void
@@ -51,8 +52,7 @@ class CreateCredit extends Component
     {
         return [
             ...$this->createCustomerValidation,
-            'amount' => ['required', 'numeric', 'min:1', 'max:80000', resolve('customer-max-due-amount')],
-            'term' => 'required|integer|min:1|max:12',
+            'amount' => ['required', 'numeric', 'min:1'],
         ];
     }
 
@@ -60,15 +60,14 @@ class CreateCredit extends Component
     {
         $this->validate();
 
-        $this->createCredit->execute(new CreateCreditInput(
+        $this->createAccount->execute(new CreateAccountInput(
             customerName: $this->customerName,
             customerSerial: $this->customerSerial,
             amount: $this->amount,
-            term: $this->term,
         ));
         $this->loadCustomers();
-        $this->emit('loadCredits');
+        $this->emit('loadAccounts');
         $this->unsetAttributes();
-        $this->emit('showAlert', 'success.message', 'Credit created.');
+        $this->emit('showAlert', 'success.message', 'Account created.');
     }
 }

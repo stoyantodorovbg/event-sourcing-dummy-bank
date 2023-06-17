@@ -9,16 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class CustomerRepository extends Repository implements CustomerRepositoryInterface
 {
-    protected string $model = Customer::class;
-
-    public function findBySerial(string $serial): Customer|null
-    {
-        return $this->model::where(compact('serial'))->first();
-    }
+    protected string $projection = Customer::class;
 
     public function customerTotalDueAmount(string $serial): float
     {
-        return (float) $this->model::where('serial', $serial)
+        return (float) $this->projection::where('serial', $serial)
             ->first()
             ?->credits()
             ->sum(DB::raw('amount - deposit'));
@@ -26,6 +21,6 @@ class CustomerRepository extends Repository implements CustomerRepositoryInterfa
 
     public function serials(): Collection
     {
-        return $this->model::orderBy('created_at', 'desc')->pluck('serial');
+        return $this->projection::orderBy('created_at', 'desc')->pluck('serial');
     }
 }

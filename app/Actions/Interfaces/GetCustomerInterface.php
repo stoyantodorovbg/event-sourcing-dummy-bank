@@ -3,6 +3,7 @@
 namespace App\Actions\Interfaces;
 
 use App\Projections\Customer;
+use Spatie\EventSourcing\Projections\Projection;
 
 interface GetCustomerInterface
 {
@@ -11,7 +12,7 @@ interface GetCustomerInterface
      *
      * @param string|null $customerSerial
      * @param string|null $customerName
-     * @return Customer
+     * @return Projection
      */
-    public function execute(string|null $customerSerial, string|null $customerName): Customer;
+    public function execute(string|null $customerSerial, string|null $customerName): Projection;
 }

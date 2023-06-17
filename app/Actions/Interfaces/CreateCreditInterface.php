@@ -3,7 +3,7 @@
 namespace App\Actions\Interfaces;
 
 use App\Dto\CreateCreditInput;
-use App\Projections\Credit;
+use Spatie\EventSourcing\Projections\Projection;
 
 interface CreateCreditInterface
 {
@@ -11,7 +11,7 @@ interface CreateCreditInterface
      * Create a credit
      *
      * @param CreateCreditInput $data
-     * @return Credit
+     * @return Projection
      */
-    public function execute(CreateCreditInput $data): Credit;
+    public function execute(CreateCreditInput $data): Projection;
 }

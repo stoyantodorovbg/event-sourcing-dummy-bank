@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use App\Actions\Interfaces\FormatMoneyInterface;
 use App\Http\Livewire\Traits\DisplaysAlerts;
 use App\Http\Livewire\Traits\HasPagination;
-use App\Repositories\Interfaces\CreditRepositoryInterface;
+use App\Repositories\Interfaces\AccountRepositoryInterface;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -14,36 +14,36 @@ use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class CreditsIndex extends Component
+class AccountsIndex extends Component
 {
     use WithPagination, DisplaysAlerts, HasPagination;
 
-    protected Collection|LengthAwarePaginator|null $credits = null;
+    protected Collection|LengthAwarePaginator|null $accounts = null;
 
-    protected readonly CreditRepositoryInterface $creditRepository;
+    protected readonly AccountRepositoryInterface $accountRepository;
     protected readonly FormatMoneyInterface $formatMoney;
 
     protected $listeners = [
-        'loadCredits' => 'loadCredits',
+        'loadAccounts' => 'loadAccounts',
         'showAlert' => 'showAlert',
     ];
 
     public function __construct($id = null)
     {
         parent::__construct($id);
-        $this->creditRepository = resolve(CreditRepositoryInterface::class);
+        $this->accountRepository = resolve(AccountRepositoryInterface::class);
         $this->formatMoney = resolve(FormatMoneyInterface::class);
     }
 
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $this->loadCredits();
+        $this->loadAccounts();
 
-        return view('livewire.credits-index');
+        return view('livewire.accounts-index');
     }
 
-    public function loadCredits(): void
+    public function loadAccounts(): void
     {
-        $this->credits = $this->creditRepository->allQuery(['customer'])->paginate();
+        $this->accounts = $this->accountRepository->allQuery(['customer'])->paginate();
     }
 }

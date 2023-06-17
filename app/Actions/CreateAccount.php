@@ -2,44 +2,42 @@
 
 namespace App\Actions;
 
-use App\Actions\Interfaces\CreateCreditInterface;
+use App\Actions\Interfaces\CreateAccountInterface;
 use App\Actions\Interfaces\GetCustomerInterface;
 use App\Actions\Interfaces\GetSerialNumberInterface;
-use App\Dto\CreateCredit as CreateCreditDto;
-use App\Dto\CreateCreditInput;
-use App\Events\NewCredit;
-use App\Projections\Credit;
+use App\Dto\CreateAccount as CreateAccountDto;
+use App\Dto\CreateAccountInput;
+use App\Events\NewAccount;
+use App\Projections\Account;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
-use App\Repositories\Interfaces\CreditRepositoryInterface;
+use App\Repositories\Interfaces\AccountRepositoryInterface;
 use Illuminate\Support\Str;
 use Spatie\EventSourcing\Projections\Projection;
 
-readonly class CreateCredit implements CreateCreditInterface
+readonly class CreateAccount implements CreateAccountInterface
 {
     public function __construct(
         protected CustomerRepositoryInterface $customerRepository,
-        protected CreditRepositoryInterface   $creditRepository,
+        protected AccountRepositoryInterface   $accountRepository,
         protected GetCustomerInterface        $getCustomer,
         protected GetSerialNumberInterface    $getSerialNumber,
     )
     {
     }
 
-    public function execute(CreateCreditInput $data): Projection
+    public function execute(CreateAccountInput $data): Projection
     {
-        $serial = $this->getSerialNumber->execute(Credit::class);
-        $creditData = new CreateCreditDto(
+        $serial = $this->getSerialNumber->execute(Account::class);
+        $accountData = new CreateAccountDto(
             uuid: Str::uuid(),
             customerSerial: $this->getCustomer->execute($data->customerSerial, $data->customerName)->serial,
             amount: $data->amount,
-            term: $data->term,
             serial: $serial,
-            deadline: now()->addMonths($data->term)->endOfDay(),
             createdAt: now(),
         );
 
-        NewCredit::class::dispatch($creditData);
+        NewAccount::class::dispatch($accountData);
 
-        return $this->creditRepository->findBySerial($serial);
+        return $this->accountRepository->findBySerial($serial);
     }
 }

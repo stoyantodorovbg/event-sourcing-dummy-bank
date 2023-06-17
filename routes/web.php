@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\CreditsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
@@ -18,4 +19,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home.home');
 Route::get('/credits', [CreditsController::class, 'index'])->name('credits.index');
+Route::get('/accounts', [AccountsController::class, 'index'])->name('accounts.index');
 

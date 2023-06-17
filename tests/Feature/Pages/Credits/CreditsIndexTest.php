@@ -23,6 +23,7 @@ class CreditsIndexTest extends TestCase
         $response = $this->get(route('credits.index'))
             ->assertSee('Home')
             ->assertSee('Credits')
+            ->assertSee('Accounts')
             ->assertSee('Create Credit')
             ->assertSee('Create Payment');
 

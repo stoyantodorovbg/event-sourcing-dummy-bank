@@ -6,10 +6,10 @@ use App\Actions\Interfaces\GetCustomerInterface;
 use App\Actions\Interfaces\GetSerialNumberInterface;
 use App\Dto\CreateCustomer;
 use App\Events\NewCustomer;
-use App\Projections\Credit;
 use App\Projections\Customer;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use Illuminate\Support\Str;
+use Spatie\EventSourcing\Projections\Projection;
 
 readonly class GetCustomer implements GetCustomerInterface
 {
@@ -20,7 +20,7 @@ readonly class GetCustomer implements GetCustomerInterface
     {
     }
 
-    public function execute(string|null $customerSerial, string|null $customerName): Customer
+    public function execute(string|null $customerSerial, string|null $customerName): Projection
     {
          if (! $customerSerial || ! ($customer = $this->fetchCustomer($customerSerial))) {
              $customerSerial = $this->getSerialNumber->execute(Customer::class);
@@ -36,7 +36,7 @@ readonly class GetCustomer implements GetCustomerInterface
          return $customer;
     }
 
-    protected function fetchCustomer(string $customerSerial): Customer|null
+    protected function fetchCustomer(string $customerSerial): Projection|null
     {
         return $this->customerRepository->findBySerial($customerSerial);
     }
