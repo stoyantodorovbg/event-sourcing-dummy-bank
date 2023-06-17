@@ -2,11 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Spatie\EventSourcing\Projections\Projection;
 
-abstract class Repository
+abstract class Repository implements RepositoryInterface
 {
     protected string $projection;
 

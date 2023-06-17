@@ -2,6 +2,7 @@
 
 namespace Feature\Pages\Credits;
 
+use App\Http\Livewire\CreateDeposit;
 use App\Projections\Customer;
 use App\Projections\Credit;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -143,8 +144,9 @@ class CreateCreditTest extends TestCase
             'term' => 1,
         ])->call('submit');
         $this->assertDatabaseCount('credits', 1);
-        Livewire::test('create-deposit', [
-            'creditSerial' => $credit->serial,
+        Livewire::test(CreateDeposit::class, [
+            'depositable' => 'Credit',
+            'depositableSerial' => $credit->serial,
             'deposit' => 100,
         ])->call('submit');
         Livewire::test('create-credit', [

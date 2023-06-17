@@ -27,5 +27,5 @@
     </table>
     {{ $this->credits->links() }}
     <livewire:create-credit/>
-    <livewire:create-deposit/>
+    <livewire:create-deposit :depositable="'Credit'"/>
 </div>

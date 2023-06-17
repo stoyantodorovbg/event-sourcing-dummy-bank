@@ -23,5 +23,5 @@
     </table>
     {{ $this->accounts->links() }}
     <livewire:create-account/>
-{{--    <livewire:create-deposit/>--}}
+    <livewire:create-deposit :depositable="'Account'"/>
 </div>

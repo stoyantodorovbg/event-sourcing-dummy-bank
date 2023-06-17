@@ -16,19 +16,19 @@
             </div>
             <div class="modal-body">
                 <div class="form-group mt-4">
-                    <input wire:model="creditSerial"
+                    <input wire:model="depositableSerial"
                            type="text"
                            class="form-control mb-1"
-                           id="creditSerial"
+                           id="depositableSerial"
                            placeholder="Type in credit serial number"
                     >
-                    <select wire:model="creditSerial" class="form-select" id="creditSerial">
+                    <select wire:model="depositableSerial" class="form-select" id="depositableSerial">
                         <option selected value="">Or Select Credit Serial Number</option>
-                        @foreach($this->creditsSerials as $serial)
+                        @foreach($this->depositableSerials as $serial)
                             <option wire:key="credit-{{ $serial }}" value="{{ $serial }}">{{ $serial }}</option>
                         @endforeach
                     </select>
-                    @error('creditSerial') <p class="text-danger">{{ $message }}</p> @enderror
+                    @error('depositableSerial') <p class="text-danger">{{ $message }}</p> @enderror
                 </div>
                 <div class="form-group mt-4">
                     <input wire:model="deposit"

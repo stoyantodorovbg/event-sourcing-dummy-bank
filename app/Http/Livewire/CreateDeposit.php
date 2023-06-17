@@ -3,12 +3,10 @@
 namespace App\Http\Livewire;
 
 use App\Actions\Interfaces\CreateDepositInterface;
-use App\Dto\CreateDeposit as CreateDepositDto;
 use App\Dto\CreateDepositInput;
 use App\Http\Livewire\Traits\CreateCustomer;
 use App\Http\Livewire\Traits\UnsetAttributes;
-use App\Projections\Credit;
-use App\Repositories\Interfaces\CreditRepositoryInterface;
+use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -19,27 +17,23 @@ class CreateDeposit extends Component
 {
     use UnsetAttributes, CreateCustomer;
 
-    public Collection|null $creditsSerials = null;
+    public Collection|null $depositableSerials = null;
 
-    public string|null $creditSerial;
+    public string|null $depositableSerial;
     public float|string|null $deposit;
 
-    protected array $rules = [
-        'creditSerial' => 'required|string|exists:credits,serial',
-        'deposit' => 'required|numeric|min:1',
-    ];
+    public string|null $depositable = null;
     protected $listeners = [
-        'loadCredits' => 'loadCredits',
+        'loadDepositables' => 'loadDepositables',
     ];
-    protected array $attributesToUnset = ['creditSerial', 'deposit'];
+    protected array $attributesToUnset = ['depositableSerial', 'deposit'];
 
-    protected readonly CreditRepositoryInterface $creditRepository;
+    protected readonly RepositoryInterface $depositableRepository;
     protected readonly CreateDepositInterface $payInstallment;
 
     public function __construct($id = null)
     {
         parent::__construct($id);
-        $this->creditRepository = resolve(CreditRepositoryInterface::class);
         $this->payInstallment = resolve(CreateDepositInterface::class);
     }
 
@@ -48,9 +42,19 @@ class CreateDeposit extends Component
         return view('livewire.create-deposit');
     }
 
-    public function mount(): void
+    public function mount(string $depositable): void
     {
-        $this->loadCredits();
+        $this->depositable = $depositable;
+        $this->depositableRepository = resolve($this->getDepositableUtilityName('App\\Repositories\\Interfaces\\', 'RepositoryInterface'));
+        $this->loadDepositables();
+    }
+
+    public function rules(): array
+    {
+        return [
+            'depositableSerial' => strtolower($this->getDepositableUtilityName('required|string|exists:', 's,serial')),
+            'deposit' => 'required|numeric|min:1',
+        ];
     }
 
     public function submit(): void
@@ -58,24 +62,29 @@ class CreateDeposit extends Component
         $this->validate();
 
         $reminder = $this->payInstallment->execute(new CreateDepositInput(
-            depositableSerial: $this->creditSerial,
-            depositableType: Credit::class,
+            depositableSerial: $this->depositableSerial,
+            depositableType: $this->getDepositableUtilityName('\\App\\Projections\\'),
             amount: $this->deposit,
         ));
 
-        $this->emit('loadCredits');
+        $this->emit($this->getDepositableUtilityName('load', 's'));
         $this->emit('loadCustomers');
         $this->unsetAttributes();
         $this->emit('showAlert', 'success.message', 'Deposit created.');
         if ($reminder) {
             $reminder = number_format($reminder, 2, '.', ',');
-            $message = "Тhe deposit exceeds the amount due. Remainder of the deposit: {$reminder} BGN";
+            $message = "Тhe deposit exceeds the allowed amount. Remainder of the deposit: {$reminder} BGN";
             $this->emit('showAlert', 'warning.message', $message);
         }
     }
 
-    public function loadCredits(): void
+    public function loadDepositables(): void
     {
-        $this->creditsSerials = $this->creditRepository->allQuery()->pluck('serial');
+        $this->depositableSerials = $this->depositableRepository->allQuery()->pluck('serial');
+    }
+
+    protected function getDepositableUtilityName(string $start = '', string $end = ''): string
+    {
+        return $start . $this->depositable . $end;
     }
 }

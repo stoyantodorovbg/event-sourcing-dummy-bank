@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('deposits', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->string('depositable_serial', 30)->unique();
+            $table->string('depositable_serial', 30);
             $table->string('depositable_type', 100);
             $table->string('serial', 30)->unique();
             $table->decimal('amount', 12);
