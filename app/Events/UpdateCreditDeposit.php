@@ -13,7 +13,7 @@ class UpdateCreditDeposit extends ShouldBeStored
     /**
      * Create a new event instance.
      */
-    public function __construct(public Credit $credit, public float $paymentAmount)
+    public function __construct(public Credit $credit, public float $depositAmount)
     {
         //
     }

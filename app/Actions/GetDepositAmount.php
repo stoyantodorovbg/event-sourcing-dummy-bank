@@ -2,9 +2,9 @@
 
 namespace App\Actions;
 
-use App\Actions\Interfaces\GetPaymentAmountInterface;
+use App\Actions\Interfaces\GetDepositAmountInterface;
 
-class GetPaymentAmount implements GetPaymentAmountInterface
+class GetDepositAmount implements GetDepositAmountInterface
 {
     public function execute(float $deposit, float $remainder): float
     {

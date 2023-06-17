@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Pages\Credits;
+namespace Feature\Pages\Credits;
 
 use App\Actions\Interfaces\FormatMoneyInterface;
 use App\Projections\Credit;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-class CreatePaymentTest extends TestCase
+class CreateDepositTest extends TestCase
 {
     protected FormatMoneyInterface $formatMoney;
 
@@ -18,10 +18,10 @@ class CreatePaymentTest extends TestCase
     }
 
     /** @test */
-    public function create_payment_form_fields_and_buttons(): void
+    public function create_deposit_form_fields_and_buttons(): void
     {
         $credits = Credit::factory()->count(10)->create();
-        $livewire = Livewire::test('create-payment');
+        $livewire = Livewire::test('create-deposit');
 
         $livewire
             ->assertSee('Type in credit serial')
@@ -38,10 +38,10 @@ class CreatePaymentTest extends TestCase
     }
 
     /** @test */
-    public function create_payment_sets_the_entered_inputs(): void
+    public function create_deposit_sets_the_entered_inputs(): void
     {
         $credit = Credit::factory()->create();
-        Livewire::test('create-payment', [
+        Livewire::test('create-deposit', [
             'creditSerial' => $credit->serial,
             'deposit' => 100,
         ])
@@ -50,11 +50,11 @@ class CreatePaymentTest extends TestCase
     }
 
     /** @test */
-    public function create_a_payment(): void
+    public function create_a_deposit(): void
     {
         $credit = Credit::factory()->create(['amount' => 3345.33]);
         $deposit = 222.22;
-        Livewire::test('create-payment', [
+        Livewire::test('create-deposit', [
             'creditSerial' => $credit->serial,
             'deposit' => $deposit,
         ])->call('submit');
@@ -67,12 +67,12 @@ class CreatePaymentTest extends TestCase
     }
 
     /** @test */
-    public function the_created_payment_is_displayed_on_credits_index(): void
+    public function the_created_deposit_is_displayed_on_credits_index(): void
     {
         $amount = 23546.33;
         $credit = Credit::factory()->create(compact('amount'));
         $deposit = 2234.44;
-        Livewire::test('create-payment', [
+        Livewire::test('create-deposit', [
             'creditSerial' => $credit->serial,
             'deposit' => $deposit,
         ])->call('submit');
@@ -80,12 +80,12 @@ class CreatePaymentTest extends TestCase
     }
 
     /** @test */
-    public function when_the_payment_exeeds_due_amount_only_the_due_amount_is_deposited()
+    public function when_the_deposit_exeeds_due_amount_only_the_due_amount_is_deposited()
     {
         $credit = Credit::factory()->create([
             'amount' => 10000,
         ]);
-        Livewire::test('create-payment', [
+        Livewire::test('create-deposit', [
             'creditSerial' => $credit->serial,
             'deposit' => 15000,
         ])->call('submit');

@@ -5,7 +5,7 @@
     @include('navs.page-nav', [
         'modalLinks' => [
             ['name' => 'Create Credit', 'modalId' => 'createCreditModal'],
-            ['name' => 'Create Payment', 'modalId' => 'createPaymentModal'],
+            ['name' => 'Create Deposit', 'modalId' => 'createDepositModal'],
         ]
     ])
     <div class="container-fluid">

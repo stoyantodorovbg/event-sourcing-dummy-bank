@@ -4,7 +4,7 @@ namespace App\Actions\Interfaces;
 
 use App\Projections\Credit;
 
-interface GetPaymentRemainderInterface
+interface GetDepositRemainderInterface
 {
     /**
      * Get the remainder from deposit

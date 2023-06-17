@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-readonly class PayInstallment
+readonly class CreateDeposit
 {
     public function __construct(
         public string $creditSerial,

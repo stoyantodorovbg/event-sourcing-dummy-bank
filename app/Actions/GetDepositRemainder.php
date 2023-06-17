@@ -2,10 +2,10 @@
 
 namespace App\Actions;
 
-use App\Actions\Interfaces\GetPaymentRemainderInterface;
+use App\Actions\Interfaces\GetDepositRemainderInterface;
 use App\Projections\Credit;
 
-class GetPaymentRemainder implements GetPaymentRemainderInterface
+class GetDepositRemainder implements GetDepositRemainderInterface
 {
     public function execute(Credit $credit, float $deposit): float
     {

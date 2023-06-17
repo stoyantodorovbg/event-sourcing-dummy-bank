@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Pages\Credits;
+namespace Feature\Pages\Credits;
 
 use App\Projections\Customer;
 use App\Projections\Credit;
@@ -143,7 +143,7 @@ class CreateCreditTest extends TestCase
             'term' => 1,
         ])->call('submit');
         $this->assertDatabaseCount('credits', 1);
-        Livewire::test('create-payment', [
+        Livewire::test('create-deposit', [
             'creditSerial' => $credit->serial,
             'deposit' => 100,
         ])->call('submit');

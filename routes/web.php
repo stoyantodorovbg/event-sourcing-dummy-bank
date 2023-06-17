@@ -3,7 +3,7 @@
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\CreditsController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\DepositController;
 use Illuminate\Support\Facades\Route;
 
 /*

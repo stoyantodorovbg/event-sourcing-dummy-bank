@@ -4,10 +4,10 @@ namespace App\Actions\Interfaces;
 
 use App\Projections\Credit;
 
-interface GetPaymentAmountInterface
+interface GetDepositAmountInterface
 {
     /**
-     * Get payment amount
+     * Get deposit amount
      *
      * @param float $deposit
      * @param float $remainder

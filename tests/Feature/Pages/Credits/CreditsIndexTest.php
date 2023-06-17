@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Pages\Credits;
+namespace Feature\Pages\Credits;
 
 use App\Actions\Interfaces\FormatMoneyInterface;
 use App\Projections\Credit;
@@ -25,7 +25,7 @@ class CreditsIndexTest extends TestCase
             ->assertSee('Credits')
             ->assertSee('Accounts')
             ->assertSee('Create Credit')
-            ->assertSee('Create Payment');
+            ->assertSee('Create Deposit');
 
         $response->assertStatus(200);
     }

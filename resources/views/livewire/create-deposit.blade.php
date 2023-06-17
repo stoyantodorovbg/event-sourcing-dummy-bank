@@ -1,15 +1,15 @@
 <div wire:ignore.self
      class="modal fade"
-     id="createPaymentModal"
+     id="createDepositModal"
      tabindex="-1"
      role="dialog"
-     aria-labelledby="createPaymentModalLabel"
+     aria-labelledby="createDepositModalLabel"
      aria-hidden="true"
 >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createPaymentModalLabel">Create Payment</h5>
+                <h5 class="modal-title" id="createDepositModalLabel">Create Deposit</h5>
                 <button type="button" class="close border-0 bg-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -6,18 +6,18 @@ use App\Actions\CreateAccount;
 use App\Actions\CreateCredit;
 use App\Actions\FormatMoney;
 use App\Actions\GetCustomer;
-use App\Actions\GetPaymentAmount;
-use App\Actions\GetPaymentRemainder;
+use App\Actions\GetDepositAmount;
+use App\Actions\GetDepositRemainder;
 use App\Actions\GetSerialNumber;
 use App\Actions\Interfaces\CreateAccountInterface;
 use App\Actions\Interfaces\CreateCreditInterface;
 use App\Actions\Interfaces\FormatMoneyInterface;
 use App\Actions\Interfaces\GetCustomerInterface;
-use App\Actions\Interfaces\GetPaymentAmountInterface;
-use App\Actions\Interfaces\GetPaymentRemainderInterface;
+use App\Actions\Interfaces\GetDepositAmountInterface;
+use App\Actions\Interfaces\GetDepositRemainderInterface;
 use App\Actions\Interfaces\GetSerialNumberInterface;
-use App\Actions\Interfaces\PayInstallmentInterface;
-use App\Actions\PayInstallment;
+use App\Actions\Interfaces\CreateDepositInterface;
+use App\Actions\CreateDeposit;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
@@ -58,21 +58,21 @@ class ActionServiceProvider extends ServiceProvider
             ])
         );
 
-        // Payments
+        // Deposits
         $this->app->bind(
-            abstract: GetPaymentRemainderInterface::class,
-            concrete: GetPaymentRemainder::class,
+            abstract: GetDepositRemainderInterface::class,
+            concrete: GetDepositRemainder::class,
         );
         $this->app->bind(
-            abstract: GetPaymentAmountInterface::class,
-            concrete: GetPaymentAmount::class,
+            abstract: GetDepositAmountInterface::class,
+            concrete: GetDepositAmount::class,
         );
         $this->app->bind(
-            abstract: PayInstallmentInterface::class,
-            concrete: fn() => resolve(PayInstallment::class, [
+            abstract: CreateDepositInterface::class,
+            concrete: fn() => resolve(CreateDeposit::class, [
                 resolve(CreditRepositoryInterface::class),
-                resolve(GetPaymentAmountInterface::class),
-                resolve(GetPaymentRemainderInterface::class),
+                resolve(GetDepositAmountInterface::class),
+                resolve(GetDepositRemainderInterface::class),
             ])
         );
 

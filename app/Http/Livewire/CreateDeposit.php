@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use App\Actions\Interfaces\PayInstallmentInterface;
-use App\Dto\PayInstallment;
+use App\Actions\Interfaces\CreateDepositInterface;
+use App\Dto\CreateDeposit as CreateDepositDto;
 use App\Http\Livewire\Traits\CreateCustomer;
 use App\Http\Livewire\Traits\UnsetAttributes;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
-class CreatePayment extends Component
+class CreateDeposit extends Component
 {
     use UnsetAttributes, CreateCustomer;
 
@@ -32,18 +32,18 @@ class CreatePayment extends Component
     protected array $attributesToUnset = ['creditSerial', 'deposit'];
 
     protected readonly CreditRepositoryInterface $creditRepository;
-    protected readonly PayInstallmentInterface $payInstallment;
+    protected readonly CreateDepositInterface $payInstallment;
 
     public function __construct($id = null)
     {
         parent::__construct($id);
         $this->creditRepository = resolve(CreditRepositoryInterface::class);
-        $this->payInstallment = resolve(PayInstallmentInterface::class);
+        $this->payInstallment = resolve(CreateDepositInterface::class);
     }
 
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('livewire.create-payment');
+        return view('livewire.create-deposit');
     }
 
     public function mount(): void
@@ -55,7 +55,7 @@ class CreatePayment extends Component
     {
         $this->validate();
 
-        $reminder = $this->payInstallment->execute(new PayInstallment(
+        $reminder = $this->payInstallment->execute(new CreateDepositDto(
             creditSerial: $this->creditSerial,
             deposit: $this->deposit,
         ));
@@ -63,10 +63,10 @@ class CreatePayment extends Component
         $this->emit('loadCredits');
         $this->emit('loadCustomers');
         $this->unsetAttributes();
-        $this->emit('showAlert', 'success.message', 'Payment created.');
+        $this->emit('showAlert', 'success.message', 'Deposit created.');
         if ($reminder) {
             $reminder = number_format($reminder, 2, '.', ',');
-            $message = "Тhe payment exceeds the amount due. Remainder of the deposit: {$reminder} BGN";
+            $message = "Тhe deposit exceeds the amount due. Remainder of the deposit: {$reminder} BGN";
             $this->emit('showAlert', 'warning.message', $message);
         }
     }
