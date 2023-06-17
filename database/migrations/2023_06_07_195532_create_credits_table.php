@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('credits', function (Blueprint $table) {
             $table->uuid()->primary();;
-            $table->uuid('customer_uuid');
+            $table->uuid('customer_serial');
             $table->decimal('amount', 12, 2);
             $table->decimal('deposit', 12, 2)->default(0);
             $table->unsignedInteger('term');
             $table->unsignedTinyInteger('status')->default(0);
-            $table->string('code');
+            $table->string('serial')->unique();
             $table->dateTime('deadline');
 
             $table->timestamps();
 
-            $table->foreign('customer_uuid')->references('uuid')->on('customers')->onDelete('cascade');
+            $table->foreign('customer_serial')->references('serial')->on('customers')->onDelete('cascade');
         });
     }
 

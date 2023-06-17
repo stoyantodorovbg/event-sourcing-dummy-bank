@@ -15,20 +15,32 @@
                 </button>
             </div>
             <div class="modal-body">
-                    <div class="form-group mt-4">
-                        <input wire:model="creditCode" type="text" class="form-control mb-1" id="creditCode" placeholder="Type in credit code">
-                        <select wire:model="creditCode" class="form-select" id="creditCode">
-                            <option selected value="">Or Select Credit Code</option>
-                            @foreach($this->credits as $code)
-                                <option wire:key="{{ $code }}" value="{{ $code }}">{{ $code }}</option>
-                            @endforeach
-                        </select>
-                        @error('creditCode') <p class="text-danger">{{ $message }}</p> @enderror
-                    </div>
-                    <div class="form-group mt-4">
-                        <input wire:model="deposit" type="number" step="100" min="0" class="form-control" id="creditAmount" placeholder="Amount (BGN)">
-                        @error('deposit') <p class="text-danger">{{ $message }}</p> @enderror
-                    </div>
+                <div class="form-group mt-4">
+                    <input wire:model="creditSerial"
+                           type="text"
+                           class="form-control mb-1"
+                           id="creditSerial"
+                           placeholder="Type in credit serial number"
+                    >
+                    <select wire:model="creditSerial" class="form-select" id="creditSerial">
+                        <option selected value="">Or Select Credit Serial Number</option>
+                        @foreach($this->creditsSerials as $serial)
+                            <option wire:key="credit-{{ $serial }}" value="{{ $serial }}">{{ $serial }}</option>
+                        @endforeach
+                    </select>
+                    @error('creditSerial') <p class="text-danger">{{ $message }}</p> @enderror
+                </div>
+                <div class="form-group mt-4">
+                    <input wire:model="deposit"
+                           type="number"
+                           step="100"
+                           min="0"
+                           class="form-control"
+                           id="creditAmount"
+                           placeholder="Amount (BGN)"
+                    >
+                    @error('deposit') <p class="text-danger">{{ $message }}</p> @enderror
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

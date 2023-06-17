@@ -7,16 +7,22 @@ use App\Repositories\Interfaces\CreditRepositoryInterface;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class CreditsIndex extends Component
 {
-    public Collection|null $credits = null;
+    use WithPagination;
+
+    protected Collection|LengthAwarePaginator|null $credits = null;
 
     protected readonly CreditRepositoryInterface $creditRepository;
     protected readonly FormatMoneyInterface $formatMoney;
 
+
+    protected string $paginationTheme = 'bootstrap';
     protected $listeners = [
         'loadCredits' => 'loadCredits',
         'showAlert' => 'showAlert',
@@ -31,17 +37,14 @@ class CreditsIndex extends Component
 
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('livewire.credits-index');
-    }
-
-    public function mount(): void
-    {
         $this->loadCredits();
+
+        return view('livewire.credits-index');
     }
 
     public function loadCredits(): void
     {
-        $this->credits = $this->creditRepository->all(['customer']);
+        $this->credits = $this->creditRepository->allQuery(['customer'])->paginate();
     }
 
     public function showAlert(string $sessionKey, string $message): void

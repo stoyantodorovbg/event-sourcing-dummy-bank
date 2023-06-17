@@ -8,10 +8,10 @@ readonly class CreateCredit
 {
     public function __construct(
         public string $uuid,
-        public string $customerUuid,
+        public string $customerSerial,
         public float $amount,
         public int $term,
-        public string $code,
+        public string $serial,
         public Carbon $deadline,
         public Carbon $createdAt,
     )

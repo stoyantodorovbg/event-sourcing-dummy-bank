@@ -8,7 +8,8 @@
             <th>Due Amount</th>
             <th>Term</th>
             <th>Monthly Installment</th>
-            <th>Code</th>
+            <th>Serial Number</th>
+            <th>Customer Serial Number</th>
         </tr>
         </thead>
         <tbody>
@@ -18,11 +19,13 @@
                 <td>{{ $this->formatMoney->execute($credit->due_amount) }} BGN</td>
                 <td>{{ $credit->term }} months</td>
                 <td>{{ $this->formatMoney->execute($credit->monthly_installment) }} BGN</td>
-                <td>{{ $credit->code }}</td>
+                <td>{{ $credit->serial }}</td>
+                <td>{{ $credit->customer->serial }}</td>
             </tr>
         @endforeach
         </tbody>
     </table>
+    {{ $this->credits->links() }}
     <livewire:create-credit/>
     <livewire:create-payment/>
 </div>

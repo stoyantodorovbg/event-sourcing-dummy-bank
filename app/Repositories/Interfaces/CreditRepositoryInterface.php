@@ -9,13 +9,13 @@ use Illuminate\Support\Collection;
 interface CreditRepositoryInterface
 {
     /**
-     * Try to found a credit by code
+     * Try to found a credit by serial
      * Throw exception when such credit is missing
      *
-     * @param string $code
+     * @param string $serial
      * @return Credit
      */
-    public function findByCode(string $code): Credit;
+    public function findByCode(string $serial): Credit;
 
     /**
      * @param array $with

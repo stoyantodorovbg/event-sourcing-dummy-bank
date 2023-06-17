@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Projections;
 
+use App\Actions\Interfaces\GetSerialNumberInterface;
 use App\Projections\Customer;
 use App\Projections\Credit;
 use Database\Factories\BaseFactory;
@@ -20,10 +21,10 @@ class CreditFactory extends BaseFactory
 
         return [
             'uuid' => Str::uuid(),
-            'customer_uuid' => Customer::factory()->create(),
+            'customer_serial' => Customer::factory()->create()->serial,
             'amount' => fake()->randomFloat(2, 100, 10000),
             'term' => $term,
-            'code' => Str::uuid(),
+            'serial' => resolve(GetSerialNumberInterface::class)->execute($this->model),
             'deadline' => now()->addMonths($term),
         ];
     }

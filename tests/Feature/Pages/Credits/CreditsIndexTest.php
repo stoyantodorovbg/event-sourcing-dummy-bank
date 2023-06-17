@@ -38,8 +38,9 @@ class CreditsIndexTest extends TestCase
                 ->assertSee($this->formatMoney->execute($credit->due_amount))
                 ->assertSee($this->formatMoney->execute($credit->monthly_installment))
                 ->assertSee($credit->term)
-                ->assertSee($credit->code)
-                ->assertSee($credit->customer->name);
+                ->assertSee($credit->serial)
+                ->assertSee($credit->customer->name)
+                ->assertSee($credit->customer->serial);
         }
     }
 }

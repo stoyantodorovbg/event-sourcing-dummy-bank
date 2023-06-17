@@ -14,7 +14,7 @@ class Credit extends BaseProjection
 
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class, 'customer_serial', 'serial');
     }
 
     public function getDueAmountAttribute(): float

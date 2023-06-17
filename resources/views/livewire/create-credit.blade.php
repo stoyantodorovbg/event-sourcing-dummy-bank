@@ -16,15 +16,43 @@
             </div>
             <div class="modal-body">
                 <div class="form-group mt-4">
-                    <input wire:model="customer" type="text" class="form-control" id="customerName" placeholder="Customer Name">
-                    @error('customer') <p class="text-danger">{{ $message }}</p> @enderror
+                    <input wire:model="customerName" type="text" class="form-control" id="customerName" placeholder="Customer Name">
+                    @error('customerName') <p class="text-danger">{{ $message }}</p> @enderror
                 </div>
                 <div class="form-group mt-4">
-                    <input wire:model="amount" type="number" step="100" min="0" class="form-control" id="creditAmount" placeholder="Amount (BGN)">
+                    <input wire:model="customerSerial"
+                           type="text"
+                           class="form-control mb-1"
+                           id="creditSerial"
+                           placeholder="Type in customer serial number"
+                    >
+                    <select wire:model="customerSerial" class="form-select" id="creditSerial">
+                        <option selected value="">Or Select Customer Serial Number</option>
+                        @foreach($this->customersSerials as $serial)
+                            <option wire:key="customer-{{ $serial }}" value="{{ $serial }}">{{ $serial }}</option>
+                        @endforeach
+                    </select>
+                    @error('customerSerial') <p class="text-danger">{{ $message }}</p> @enderror
+                </div>
+                <div class="form-group mt-4">
+                    <input wire:model="amount"
+                           type="number"
+                           step="100"
+                           min="0"
+                           class="form-control"
+                           id="creditAmount"
+                           placeholder="Amount (BGN)"
+                    >
                     @error('amount') <p class="text-danger">{{ $message }}</p> @enderror
                 </div>
                 <div class="form-group mt-4">
-                    <input wire:model="term" type="number" step="1" min="1" class="form-control" id="creditTerm" placeholder="Term (months)">
+                    <input wire:model="term"
+                           type="number"
+                           step="1" min="1"
+                           class="form-control"
+                           id="creditTerm"
+                           placeholder="Term (months)"
+                    >
                     @error('term') <p class="text-danger">{{ $message }}</p> @enderror
                 </div>
             </div>

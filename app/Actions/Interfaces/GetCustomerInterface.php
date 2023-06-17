@@ -7,10 +7,11 @@ use App\Projections\Customer;
 interface GetCustomerInterface
 {
     /**
-     * Find a customer by name or create new one
+     * Find a customer by serial or create new one
      *
-     * @param string $customerName
+     * @param string|null $customerSerial
+     * @param string|null $customerName
      * @return Customer
      */
-    public function execute(string $customerName): Customer;
+    public function execute(string|null $customerSerial, string|null $customerName): Customer;
 }

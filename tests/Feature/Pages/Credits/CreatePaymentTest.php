@@ -24,16 +24,16 @@ class CreatePaymentTest extends TestCase
         $livewire = Livewire::test('create-payment');
 
         $livewire
-            ->assertSee('Type in credit code')
-            ->assertSee('Or Select Credit Code')
+            ->assertSee('Type in credit serial')
+            ->assertSee('Or Select Credit Serial Number')
             ->assertSee('Amount (BGN)')
             ->assertSee('Create')
             ->assertSee('Close')
-            ->assertSee('creditCode')
+            ->assertSee('creditSerial')
             ->assertSee('deposit');
 
         foreach($credits as $credit) {
-            $livewire->assertSee($credit->code);
+            $livewire->assertSee($credit->serial);
         }
     }
 
@@ -42,10 +42,10 @@ class CreatePaymentTest extends TestCase
     {
         $credit = Credit::factory()->create();
         Livewire::test('create-payment', [
-            'creditCode' => $credit->code,
+            'creditSerial' => $credit->serial,
             'deposit' => 100,
         ])
-            ->assertSet('creditCode', $credit->code)
+            ->assertSet('creditSerial', $credit->serial)
             ->assertSet('deposit', 100);
     }
 
@@ -55,12 +55,12 @@ class CreatePaymentTest extends TestCase
         $credit = Credit::factory()->create(['amount' => 3345.33]);
         $deposit = 222.22;
         Livewire::test('create-payment', [
-            'creditCode' => $credit->code,
+            'creditSerial' => $credit->serial,
             'deposit' => $deposit,
         ])->call('submit');
 
         $this->assertDataBaseHas('credits', [
-            'code' => $credit->code,
+            'serial' => $credit->serial,
             'amount' => $credit->amount,
             'deposit' => $deposit,
         ]);
@@ -73,7 +73,7 @@ class CreatePaymentTest extends TestCase
         $credit = Credit::factory()->create(compact('amount'));
         $deposit = 2234.44;
         Livewire::test('create-payment', [
-            'creditCode' => $credit->code,
+            'creditSerial' => $credit->serial,
             'deposit' => $deposit,
         ])->call('submit');
         Livewire::test('credits-index')->assertSee($this->formatMoney->execute($amount - $deposit));
@@ -86,11 +86,11 @@ class CreatePaymentTest extends TestCase
             'amount' => 10000,
         ]);
         Livewire::test('create-payment', [
-            'creditCode' => $credit->code,
+            'creditSerial' => $credit->serial,
             'deposit' => 15000,
         ])->call('submit');
         $this->assertDatabaseHas('credits', [
-            'code' => $credit->code,
+            'serial' => $credit->serial,
             'amount' => 10000,
             'deposit' => 10000,
         ]);

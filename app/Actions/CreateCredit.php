@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Actions\Interfaces\CreateCreditInterface;
 use App\Actions\Interfaces\GetCustomerInterface;
+use App\Actions\Interfaces\GetSerialNumberInterface;
 use App\Dto\CreateCredit as CreateCreditDto;
 use App\Dto\CreateCreditInput;
 use App\Events\NewCredit;
@@ -18,25 +19,26 @@ readonly class CreateCredit implements CreateCreditInterface
         protected CustomerRepositoryInterface $customerRepository,
         protected CreditRepositoryInterface   $creditRepository,
         protected GetCustomerInterface        $getCustomer,
+        protected GetSerialNumberInterface    $getSerialNumber,
     )
     {
     }
 
     public function execute(CreateCreditInput $data): Credit
     {
-        $code = Str::uuid();
+        $serial = $this->getSerialNumber->execute(Credit::class);
         $creditData = new CreateCreditDto(
             uuid: Str::uuid(),
-            customerUuid: $this->getCustomer->execute($data->customerName)->uuid,
+            customerSerial: $this->getCustomer->execute($data->customerSerial, $data->customerName)->serial,
             amount: $data->amount,
             term: $data->term,
-            code: $code,
+            serial: $serial,
             deadline: now()->addMonths($data->term)->endOfDay(),
             createdAt: now(),
         );
 
         NewCredit::class::dispatch($creditData);
 
-        return $this->creditRepository->findByCode($code);
+        return $this->creditRepository->findByCode($serial);
     }
 }

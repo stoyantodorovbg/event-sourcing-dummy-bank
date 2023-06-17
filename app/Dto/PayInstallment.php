@@ -5,7 +5,7 @@ namespace App\Dto;
 readonly class PayInstallment
 {
     public function __construct(
-        public string $creditCode,
+        public string $creditSerial,
         public float $deposit,
     )
     {

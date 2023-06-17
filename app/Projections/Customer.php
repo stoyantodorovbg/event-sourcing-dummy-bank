@@ -13,6 +13,6 @@ class Customer extends BaseProjection
 
     public function credits(): HasMany
     {
-        return $this->hasMany(Credit::class);
+        return $this->hasMany(Credit::class, 'customer_serial', 'serial');
     }
 }

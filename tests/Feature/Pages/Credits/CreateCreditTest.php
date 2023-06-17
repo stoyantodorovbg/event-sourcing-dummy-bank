@@ -13,7 +13,7 @@ class CreateCreditTest extends TestCase
     use WithFaker;
 
     protected array $creditData = [
-        'customer' => 'Customer Names',
+        'customerName' => 'Customer Names',
         'amount' => 333.33,
         'term' => 12,
     ];
@@ -36,7 +36,7 @@ class CreateCreditTest extends TestCase
     public function create_credit_sets_the_entered_inputs(): void
     {
         Livewire::test('create-credit', $this->creditData)
-            ->assertSet('customer', $this->creditData['customer'])
+            ->assertSet('customerName', $this->creditData['customerName'])
             ->assertSet('amount', $this->creditData['amount'])
             ->assertSet('term', $this->creditData['term']);
     }
@@ -50,7 +50,7 @@ class CreateCreditTest extends TestCase
             'term' => $this->creditData['term'],
         ]);
         $this->assertDataBaseHas('customers', [
-            'name' => $this->creditData['customer'],
+            'name' => $this->creditData['customerName'],
         ]);
     }
 
@@ -59,21 +59,31 @@ class CreateCreditTest extends TestCase
     {
         Livewire::test('create-credit', $this->creditData)->call('submit');
         Livewire::test('credits-index')
-            ->assertSee($this->creditData['customer'])
+            ->assertSee($this->creditData['customerName'])
             ->assertSee($this->creditData['amount'])
             ->assertSee('term', $this->creditData['term']);
     }
 
     /** @test */
-    public function when_enter_name_of_existing_customer_the_credit_is_assigned_to_him(): void
+    public function when_enter_serial_of_existing_customer_the_credit_is_assigned_to_him(): void
     {
         $customer = Customer::factory()->create();
         $creditData = $this->creditData;
-        $creditData['customer'] = $customer->name;
+        $creditData['customerSerial'] = $customer->serial;
         Livewire::test('create-credit', $creditData)->call('submit');
         $this->assertDatabaseCount('customers', 1);
         $this->assertDatabaseCount('credits', 1);
-        $this->assertEquals(Customer::first()->uuid, Credit::first()->customer_uuid);
+        $this->assertEquals(Customer::first()->serial, Credit::first()->customer_serial);
+    }
+
+    /** @test */
+    public function when_enter_customer_name_and_customer_serial_is_missing_a_new_customer_is_created(): void
+    {
+        $creditData = $this->creditData;
+        Livewire::test('create-credit', $creditData)->call('submit');
+        $this->assertDatabaseCount('customers', 1);
+        $this->assertDatabaseCount('credits', 1);
+        $this->assertEquals(Customer::first()->serial, Credit::first()->customer_serial);
     }
 
     /** @test */
@@ -83,7 +93,7 @@ class CreateCreditTest extends TestCase
             Customer::factory()->create(['name' => $this->faker->unique()->name]);
         }
         $creditData = $this->creditData;
-        $creditData['customer'] = $this->faker->unique()->name;
+        $creditData['customerName'] = $this->faker->unique()->name;
         Livewire::test('create-credit', $creditData)->call('submit');
         $this->assertDatabaseCount('customers', 11);
     }
@@ -93,25 +103,25 @@ class CreateCreditTest extends TestCase
     {
         $customer = Customer::factory()->create();
         Credit::factory()->create([
-            'customer_uuid' => $customer->uuid,
+            'customer_serial' => $customer->serial,
             'amount' => 79998,
         ]);
         $this->assertDatabaseCount('credits', 1);
         Livewire::test('create-credit', [
-            'customer' => $customer->name,
+            'customerSerial' => $customer->serial,
             'amount' => 1,
             'term' => 1,
         ])->call('submit');
         $this->assertDatabaseCount('credits', 2);
         Livewire::test('create-credit', [
-            'customer' => $customer->name,
+            'customerSerial' => $customer->serial,
             'amount' => 2,
             'term' => 1,
         ])->call('submit');
         $this->assertDatabaseCount('credits', 2);
 
         Livewire::test('create-credit', [
-            'customer' => $this->faker->name,
+            'customerName' => $this->faker->name,
             'amount' => 2,
             'term' => 1,
         ])->call('submit');
@@ -123,22 +133,22 @@ class CreateCreditTest extends TestCase
     {
         $customer = Customer::factory()->create();
         $credit = Credit::factory()->create([
-            'customer_uuid' => $customer->uuid,
+            'customer_serial' => $customer->serial,
             'amount' => 79999,
         ]);
         $this->assertDatabaseCount('credits', 1);
         Livewire::test('create-credit', [
-            'customer' => $customer->name,
+            'customerSerial' => $customer->serial,
             'amount' => 2,
             'term' => 1,
         ])->call('submit');
         $this->assertDatabaseCount('credits', 1);
         Livewire::test('create-payment', [
-            'creditCode' => $credit->code,
+            'creditSerial' => $credit->serial,
             'deposit' => 100,
         ])->call('submit');
         Livewire::test('create-credit', [
-            'customer' => $customer->name,
+            'customerSerial' => $customer->serial,
             'amount' => 100,
             'term' => 1,
         ])->call('submit');

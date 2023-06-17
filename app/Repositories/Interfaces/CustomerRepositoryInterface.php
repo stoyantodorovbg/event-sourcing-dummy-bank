@@ -3,22 +3,30 @@
 namespace App\Repositories\Interfaces;
 
 use App\Projections\Customer;
+use Illuminate\Support\Collection;
 
 interface CustomerRepositoryInterface
 {
     /**
-     * Find a customer by name
+     * Find a customer by serial
      *
-     * @param string $name
+     * @param string $serial
      * @return Customer|null
      */
-    public function findByName(string $name): Customer|null;
+    public function findBySerial(string $serial): Customer|null;
 
     /**
      * Get the customer's total due amount
      *
-     * @param string $name
+     * @param string $serial
      * @return float
      */
-    public function customerTotalDueAmount(string $name): float;
+    public function customerTotalDueAmount(string $serial): float;
+
+    /**
+     * Get customers serials
+     *
+     * @return Collection
+     */
+    public function serials(): Collection;
 }

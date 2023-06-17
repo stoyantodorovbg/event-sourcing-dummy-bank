@@ -13,9 +13,9 @@ class CreditRepository extends Repository implements CreditRepositoryInterface
 {
     protected string $model = Credit::class;
 
-    public function findByCode(string $code): Credit
+    public function findByCode(string $serial): Credit
     {
-        if ($credit = $this->model::where('code', $code)->first()) {
+        if ($credit = $this->model::where('serial', $serial)->first()) {
             return $credit;
         }
 

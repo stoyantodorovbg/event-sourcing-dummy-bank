@@ -16,9 +16,13 @@ class CustomerMaxDueAmount implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $customer = request()->get('serverMemo')['data']['customer'];
-        $totalAmount = $this->customerRepository->customerTotalDueAmount($customer) + $value;
         $allowableAmount = config('app.customerMaxTotalAmount');
+        $customerSerial = request()->get('serverMemo')['data']['customerSerial'];
+        if (! $customerSerial && $value < $allowableAmount) {
+            return;
+        }
+
+        $totalAmount = $this->customerRepository->customerTotalDueAmount($customerSerial) + $value;
         if ($totalAmount > $allowableAmount) {
             $totalAmount = number_format($totalAmount, 2, '.', ',');
             $allowableAmount = number_format($allowableAmount, 2, '.', ',');

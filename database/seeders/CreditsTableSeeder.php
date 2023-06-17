@@ -20,6 +20,7 @@ class CreditsTableSeeder extends BaseSeeder
         while($counter < $this->count) {
             $input = new CreateCreditInput(
                 customerName: "{$this->faker->firstName()} {$this->faker->firstName()}",
+                customerSerial: null,
                 amount: $this->faker->randomFloat(max: 20000),
                 term: rand(1, 12),
             );

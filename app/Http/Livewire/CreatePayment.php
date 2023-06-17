@@ -13,13 +13,13 @@ use Livewire\Component;
 
 class CreatePayment extends Component
 {
-    public Collection|null $credits = null;
+    public Collection|null $creditsSerials = null;
 
-    public string|null $creditCode;
+    public string|null $creditSerial;
     public float|string|null $deposit;
 
     protected array $rules = [
-        'creditCode' => 'required|string|exists:credits,code',
+        'creditSerial' => 'required|string|exists:credits,serial',
         'deposit' => 'required|numeric|min:1',
     ];
 
@@ -52,11 +52,12 @@ class CreatePayment extends Component
         $this->validate();
 
         $reminder = $this->payInstallment->execute(new PayInstallment(
-            creditCode: $this->creditCode,
+            creditSerial: $this->creditSerial,
             deposit: $this->deposit,
         ));
 
         $this->emit('loadCredits');
+        $this->emit('loadCustomers');
         $this->unsetAttributes();
         $this->emit('showAlert', 'success.message', 'Payment created.');
         if ($reminder) {
@@ -68,12 +69,12 @@ class CreatePayment extends Component
 
     public function loadCredits(): void
     {
-        $this->credits = $this->creditRepository->allQuery()->pluck('code');
+        $this->creditsSerials = $this->creditRepository->allQuery()->pluck('serial');
     }
 
     protected function unsetAttributes(): void
     {
-        $this->creditCode = null;
+        $this->creditSerial = null;
         $this->deposit = null;
     }
 }

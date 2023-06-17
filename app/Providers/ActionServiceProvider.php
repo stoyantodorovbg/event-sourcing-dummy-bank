@@ -7,11 +7,13 @@ use App\Actions\FormatMoney;
 use App\Actions\GetCustomer;
 use App\Actions\GetPaymentAmount;
 use App\Actions\GetPaymentRemainder;
+use App\Actions\GetSerialNumber;
 use App\Actions\Interfaces\CreateCreditInterface;
 use App\Actions\Interfaces\FormatMoneyInterface;
 use App\Actions\Interfaces\GetCustomerInterface;
 use App\Actions\Interfaces\GetPaymentAmountInterface;
 use App\Actions\Interfaces\GetPaymentRemainderInterface;
+use App\Actions\Interfaces\GetSerialNumberInterface;
 use App\Actions\Interfaces\PayInstallmentInterface;
 use App\Actions\PayInstallment;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
@@ -38,6 +40,7 @@ class ActionServiceProvider extends ServiceProvider
             concrete: fn() => resolve(CreateCredit::class, [
                 resolve(CustomerRepositoryInterface::class),
                 resolve(CreditRepositoryInterface::class),
+                resolve(GetSerialNumberInterface::class),
             ])
         );
         $this->app->bind(
@@ -60,8 +63,10 @@ class ActionServiceProvider extends ServiceProvider
             abstract: GetCustomerInterface::class,
             concrete: fn() => resolve(GetCustomer::class, [
                 resolve(CustomerRepositoryInterface::class),
+                resolve(GetSerialNumberInterface::class),
             ])
         );
         $this->app->bind(FormatMoneyInterface::class, FormatMoney::class);
+        $this->app->bind(GetSerialNumberInterface::class, GetSerialNumber::class);
     }
 }

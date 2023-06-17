@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Projections\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Enumerable;
