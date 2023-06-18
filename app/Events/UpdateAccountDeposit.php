@@ -6,7 +6,7 @@ use App\Dto\UpdateDepositable;
 use Illuminate\Foundation\Events\Dispatchable;
 use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 
-class UpdateCreditDeposit extends ShouldBeStored
+class UpdateAccountDeposit extends ShouldBeStored
 {
     use Dispatchable;
 

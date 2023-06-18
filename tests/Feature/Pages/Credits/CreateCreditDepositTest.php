@@ -8,7 +8,7 @@ use App\Projections\Credit;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-class CreateDepositTest extends TestCase
+class CreateCreditDepositTest extends TestCase
 {
     protected FormatMoneyInterface $formatMoney;
 

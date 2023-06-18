@@ -29,12 +29,12 @@ class CreateDeposit extends Component
     protected array $attributesToUnset = ['depositableSerial', 'deposit'];
 
     protected readonly RepositoryInterface $depositableRepository;
-    protected readonly CreateDepositInterface $payInstallment;
+    protected readonly CreateDepositInterface $createDeposit;
 
     public function __construct($id = null)
     {
         parent::__construct($id);
-        $this->payInstallment = resolve(CreateDepositInterface::class);
+        $this->createDeposit = resolve(CreateDepositInterface::class);
     }
 
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -61,7 +61,7 @@ class CreateDeposit extends Component
     {
         $this->validate();
 
-        $reminder = $this->payInstallment->execute(new CreateDepositInput(
+        $reminder = $this->createDeposit->execute(new CreateDepositInput(
             depositableSerial: $this->depositableSerial,
             depositableType: $this->getDepositableUtilityName('\\App\\Projections\\'),
             amount: $this->deposit,

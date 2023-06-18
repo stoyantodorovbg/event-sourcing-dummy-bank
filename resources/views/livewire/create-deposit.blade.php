@@ -20,10 +20,10 @@
                            type="text"
                            class="form-control mb-1"
                            id="depositableSerial"
-                           placeholder="Type in credit serial number"
+                           placeholder="Type in {{ strtolower($depositable) }} serial number"
                     >
                     <select wire:model="depositableSerial" class="form-select" id="depositableSerial">
-                        <option selected value="">Or Select Credit Serial Number</option>
+                        <option selected value="">Or Select {{ $depositable }} Serial Number</option>
                         @foreach($this->depositableSerials as $serial)
                             <option wire:key="credit-{{ $serial }}" value="{{ $serial }}">{{ $serial }}</option>
                         @endforeach

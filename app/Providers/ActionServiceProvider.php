@@ -70,7 +70,6 @@ class ActionServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: CreateDepositInterface::class,
             concrete: fn() => resolve(CreateDeposit::class, [
-                resolve(CreditRepositoryInterface::class),
                 resolve(GetDepositAmountInterface::class),
                 resolve(GetDepositRemainderInterface::class),
                 resolve(GetSerialNumberInterface::class),

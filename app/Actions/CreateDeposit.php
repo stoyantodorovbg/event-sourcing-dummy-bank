@@ -10,27 +10,26 @@ use App\Dto\CreateDepositInput;
 use App\Dto\CreateDeposit as CreateDepositDto;
 use App\Dto\UpdateDepositable;
 use App\Events\NewDeposit;
-use App\Repositories\Interfaces\CreditRepositoryInterface;
-use ReflectionClass;
 
 readonly class CreateDeposit implements CreateDepositInterface
 {
     public function __construct(
-        protected CreditRepositoryInterface $creditRepository,
-        protected GetDepositAmountInterface $getDepositAmount,
+        protected GetDepositAmountInterface    $getDepositAmount,
         protected GetDepositRemainderInterface $getDepositRemainder,
-        protected GetSerialNumberInterface    $getSerialNumber,
+        protected GetSerialNumberInterface     $getSerialNumber,
     )
     {
     }
 
     public function execute(CreateDepositInput $data): float
     {
-        $depositable = $this->creditRepository->findBySerial($data->depositableSerial);
+        $depositableName = explode('\\', $data->depositableType);
+        $depositableName = end($depositableName);
+        $depositable = resolve("App\\Repositories\\Interfaces\\{$depositableName}RepositoryInterface")->findBySerial($data->depositableSerial);
+
         $remainder = $this->getDepositRemainder->execute($depositable, $data->amount);
         $depositAmount = $this->getDepositAmount->execute($data->amount, $remainder);
 
-        $depositableName = (new ReflectionClass($depositable))->getShortName();
         $event = "\\App\\Events\\Update{$depositableName}Deposit";
         $event::dispatch(new UpdateDepositable($depositable, $depositAmount));
 
