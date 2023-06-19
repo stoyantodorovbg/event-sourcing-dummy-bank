@@ -54,7 +54,7 @@ class CreateAccountDepositTest extends TestCase
 
         $this->assertDataBaseHas('accounts', [
             'serial' => $account->serial,
-            'amount' => 222.22 + 3345.33,
+            'amount' => $account->amount + $deposit,
         ]);
     }
 }

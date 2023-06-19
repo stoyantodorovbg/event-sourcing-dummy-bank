@@ -20,6 +20,7 @@ class CreditProjector extends BaseProjector
     {
         $credit = $this->getWritable($event->attributes->depositable);
         $credit->deposit += $event->attributes->amount;
+        $credit->amount -= $event->attributes->amount;
         $credit->save();
 
         return $credit;

@@ -31,6 +31,7 @@ readonly class CreateCredit implements CreateCreditInterface
         $creditData = new CreateCreditDto(
             uuid: Str::uuid(),
             customerSerial: $this->getCustomer->execute($data->customerSerial, $data->customerName)->serial,
+            initialAmount: $data->amount,
             amount: $data->amount,
             term: $data->term,
             serial: $serial,

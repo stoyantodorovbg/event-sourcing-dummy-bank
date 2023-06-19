@@ -9,6 +9,7 @@ readonly class CreateCredit
     public function __construct(
         public string $uuid,
         public string $customerSerial,
+        public float $initialAmount,
         public float $amount,
         public int $term,
         public string $serial,

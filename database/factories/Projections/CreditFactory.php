@@ -18,11 +18,13 @@ class CreditFactory extends BaseFactory
     public function definition(): array
     {
         $term = random_int(1, 12);
+        $amount = fake()->randomFloat(2, 100, 10000);
 
         return [
             'uuid' => Str::uuid(),
             'customer_serial' => Customer::factory()->create()->serial,
-            'amount' => fake()->randomFloat(2, 100, 10000),
+            'initial_amount' => $amount,
+            'amount' => $amount,
             'term' => $term,
             'serial' => resolve(GetSerialNumberInterface::class)->execute($this->model),
             'deadline' => now()->addMonths($term),

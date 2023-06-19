@@ -48,6 +48,8 @@ class CreateCreditTest extends TestCase
         Livewire::test('create-credit', $this->creditData)->call('submit');
         $this->assertDataBaseHas('credits', [
             'amount' => $this->creditData['amount'],
+            'initial_amount' => $this->creditData['amount'],
+            'deposit' => 0,
             'term' => $this->creditData['term'],
         ]);
         $this->assertDataBaseHas('customers', [

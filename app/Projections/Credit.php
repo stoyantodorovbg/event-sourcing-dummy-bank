@@ -5,7 +5,6 @@ namespace App\Projections;
 use App\Projections\Interfaces\HasDeposits;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Projections\Traits\HasDeposits as HasDepositsTrait;
 
 class Credit extends BaseProjection implements HasDeposits
@@ -22,11 +21,11 @@ class Credit extends BaseProjection implements HasDeposits
 
     public function getAllowableAmountAttribute(): float
     {
-        return $this->amount - $this->deposit;
+        return $this->amount;
     }
 
     public function getMonthlyInstallmentAttribute(): float
     {
-        return $this->amount / $this->term;
+        return $this->initial_amount / $this->term;
     }
 }

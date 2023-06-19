@@ -5,11 +5,9 @@ namespace App\Providers;
 use App\Repositories\AccountRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\CreditRepository;
-use App\Repositories\InstallmentRepository;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
-use App\Repositories\Interfaces\InstallmentRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider

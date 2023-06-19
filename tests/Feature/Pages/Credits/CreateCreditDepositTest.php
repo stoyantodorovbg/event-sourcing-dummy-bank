@@ -63,7 +63,7 @@ class CreateCreditDepositTest extends TestCase
 
         $this->assertDataBaseHas('credits', [
             'serial' => $credit->serial,
-            'amount' => $credit->amount,
+            'amount' => $credit->amount - $deposit,
             'deposit' => $deposit,
         ]);
     }
@@ -95,7 +95,7 @@ class CreateCreditDepositTest extends TestCase
         ])->call('submit');
         $this->assertDatabaseHas('credits', [
             'serial' => $credit->serial,
-            'amount' => 10000,
+            'amount' => 0,
             'deposit' => 10000,
         ]);
     }
