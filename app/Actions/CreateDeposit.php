@@ -31,7 +31,10 @@ readonly class CreateDeposit implements CreateDepositInterface
         $depositAmount = $this->getDepositAmount->execute($data->amount, $remainder);
 
         $event = "\\App\\Events\\Update{$depositableName}Deposit";
-        $event::dispatch(new UpdateDepositable($depositable, $depositAmount));
+        $event::dispatch(new UpdateDepositable(
+            depositableUuid: $depositable->uuid,
+            amount: $depositAmount,
+        ));
 
         NewDeposit::dispatch(new CreateDepositDto(
                 depositableSerial: $data->depositableSerial,

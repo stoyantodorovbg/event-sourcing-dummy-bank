@@ -6,10 +6,13 @@ use App\Events\NewAccount;
 use App\Events\UpdateAccountDeposit;
 use App\Events\UpdateCreditDeposit;
 use App\Projections\Account;
+use App\Projectors\Traits\ResetState;
 use Spatie\EventSourcing\Projections\Projection;
 
 class AccountProjector extends BaseProjector
 {
+    use ResetState;
+
     protected string $projection = Account::class;
 
     public function onNewAccount(NewAccount $event): Projection
@@ -19,7 +22,7 @@ class AccountProjector extends BaseProjector
 
     public function onUpdateAccountDeposit(UpdateAccountDeposit $event)
     {
-        $account = $this->getWritable($event->attributes->depositable);
+        $account = $this->findByUuid($event->attributes->depositableUuid)->writeable();
         $account->amount += $event->attributes->amount;
         $account->save();
 

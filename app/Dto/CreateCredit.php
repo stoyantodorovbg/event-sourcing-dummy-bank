@@ -4,17 +4,17 @@ namespace App\Dto;
 
 use Illuminate\Support\Carbon;
 
-readonly class CreateCredit
+class CreateCredit
 {
     public function __construct(
-        public string $uuid,
-        public string $customerSerial,
-        public float $initialAmount,
-        public float $amount,
-        public int $term,
-        public string $serial,
-        public Carbon $deadline,
-        public Carbon $createdAt,
+        readonly public string $uuid,
+        readonly public string $customerSerial,
+        readonly public float $amount,
+        readonly public int $term,
+        readonly public string $serial,
+        readonly public Carbon $deadline,
+        readonly public Carbon $createdAt,
+        public float|null $initialAmount = null,
     )
     {
     }

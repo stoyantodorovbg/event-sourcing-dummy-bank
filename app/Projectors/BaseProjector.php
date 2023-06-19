@@ -48,4 +48,9 @@ class BaseProjector extends Projector
 
         return $projection;
     }
+
+    protected function findByUuid(string $uuid): Projection
+    {
+        return $this->projection::findOrFail($uuid);
+    }
 }

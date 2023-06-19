@@ -5,10 +5,13 @@ namespace App\Projectors;
 use App\Events\NewCredit;
 use App\Events\UpdateCreditDeposit;
 use App\Projections\Credit;
+use App\Projectors\Traits\ResetState;
 use Spatie\EventSourcing\Projections\Projection;
 
 class CreditProjector extends BaseProjector
 {
+    use ResetState;
+
     protected string $projection = Credit::class;
 
     public function onNewCredit(NewCredit $event): Projection
@@ -18,7 +21,7 @@ class CreditProjector extends BaseProjector
 
     public function onUpdateCreditDeposit(UpdateCreditDeposit $event): Projection
     {
-        $credit = $this->getWritable($event->attributes->depositable);
+        $credit = $this->findByUuid($event->attributes->depositableUuid)->writeable();
         $credit->deposit += $event->attributes->amount;
         $credit->amount -= $event->attributes->amount;
         $credit->save();

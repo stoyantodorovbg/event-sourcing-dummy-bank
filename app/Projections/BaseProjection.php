@@ -8,6 +8,11 @@ use Spatie\EventSourcing\Projections\Projection;
 
 class BaseProjection extends Projection
 {
+    public function resetState(): void
+    {
+        $this->projection::query()->delete();
+    }
+
     protected static function boot():void
     {
         parent::boot();
