@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Dto;
+namespace App\Dto\Deposit;
 
 use Illuminate\Support\Carbon;
 
-class CreateAccount
+readonly class CreateDeposit
 {
     public function __construct(
-        public string $uuid,
-        public string $customerSerial,
+        public string $depositableSerial,
+        public string $depositableType,
         public float $amount,
+        public float $remainder,
         public string $serial,
         public Carbon $createdAt,
     )

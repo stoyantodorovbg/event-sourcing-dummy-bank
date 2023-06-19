@@ -2,25 +2,28 @@
 
 namespace App\Providers;
 
-use App\Actions\CreateAccount;
-use App\Actions\CreateCredit;
-use App\Actions\FormatMoney;
-use App\Actions\GetCustomer;
-use App\Actions\GetDepositAmount;
-use App\Actions\GetDepositRemainder;
-use App\Actions\GetSerialNumber;
+use App\Actions\CreateProjection\CreateAccount;
+use App\Actions\CreateProjection\CreateCredit;
+use App\Actions\CreateProjection\CreateCustomer;
+use App\Actions\CreateProjection\CreateDeposit;
+use App\Actions\GetProjection\GetCustomer;
 use App\Actions\Interfaces\CreateAccountInterface;
 use App\Actions\Interfaces\CreateCreditInterface;
+use App\Actions\Interfaces\CreateCustomerInterface;
+use App\Actions\Interfaces\CreateDepositInterface;
 use App\Actions\Interfaces\FormatMoneyInterface;
 use App\Actions\Interfaces\GetCustomerInterface;
 use App\Actions\Interfaces\GetDepositAmountInterface;
 use App\Actions\Interfaces\GetDepositRemainderInterface;
 use App\Actions\Interfaces\GetSerialNumberInterface;
-use App\Actions\Interfaces\CreateDepositInterface;
-use App\Actions\CreateDeposit;
+use App\Actions\ProcessData\FormatMoney;
+use App\Actions\ProcessData\GetDepositAmount;
+use App\Actions\ProcessData\GetDepositRemainder;
+use App\Actions\ProcessData\GetSerialNumber;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
-use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
+use App\Repositories\Interfaces\CustomerRepositoryInterface;
+use App\Repositories\Interfaces\DepositRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class ActionServiceProvider extends ServiceProvider
@@ -44,6 +47,7 @@ class ActionServiceProvider extends ServiceProvider
             concrete: fn() => resolve(CreateAccount::class, [
                 resolve(CustomerRepositoryInterface::class),
                 resolve(AccountRepositoryInterface::class),
+                resolve(GetCustomerInterface::class),
                 resolve(GetSerialNumberInterface::class),
             ])
         );
@@ -54,11 +58,21 @@ class ActionServiceProvider extends ServiceProvider
             concrete: fn() => resolve(CreateCredit::class, [
                 resolve(CustomerRepositoryInterface::class),
                 resolve(CreditRepositoryInterface::class),
+                resolve(GetCustomerInterface::class),
                 resolve(GetSerialNumberInterface::class),
             ])
         );
 
         // Deposits
+        $this->app->bind(
+            abstract: CreateDepositInterface::class,
+            concrete: fn() => resolve(CreateDeposit::class, [
+                resolve(GetDepositAmountInterface::class),
+                resolve(GetDepositRemainderInterface::class),
+                resolve(GetSerialNumberInterface::class),
+                resolve(DepositRepositoryInterface::class),
+            ])
+        );
         $this->app->bind(
             abstract: GetDepositRemainderInterface::class,
             concrete: GetDepositRemainder::class,
@@ -67,21 +81,21 @@ class ActionServiceProvider extends ServiceProvider
             abstract: GetDepositAmountInterface::class,
             concrete: GetDepositAmount::class,
         );
+
+        // Customers
         $this->app->bind(
-            abstract: CreateDepositInterface::class,
-            concrete: fn() => resolve(CreateDeposit::class, [
-                resolve(GetDepositAmountInterface::class),
-                resolve(GetDepositRemainderInterface::class),
+            abstract: CreateCustomerInterface::class,
+            concrete: fn() => resolve(CreateCustomer::class, [
+                resolve(CustomerRepositoryInterface::class),
                 resolve(GetSerialNumberInterface::class),
             ])
         );
 
-        // Customers
         $this->app->bind(
             abstract: GetCustomerInterface::class,
             concrete: fn() => resolve(GetCustomer::class, [
                 resolve(CustomerRepositoryInterface::class),
-                resolve(GetSerialNumberInterface::class),
+                resolve(CreateCustomerInterface::class),
             ])
         );
         $this->app->bind(FormatMoneyInterface::class, FormatMoney::class);

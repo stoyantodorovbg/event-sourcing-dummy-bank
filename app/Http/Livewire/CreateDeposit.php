@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Actions\Interfaces\CreateDepositInterface;
-use App\Dto\CreateDepositInput;
+use App\Dto\Deposit\CreateDepositInput;
 use App\Http\Livewire\Traits\CreateCustomer;
 use App\Http\Livewire\Traits\UnsetAttributes;
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -61,7 +61,7 @@ class CreateDeposit extends Component
     {
         $this->validate();
 
-        $reminder = $this->createDeposit->execute(new CreateDepositInput(
+        $deposit = $this->createDeposit->execute(new CreateDepositInput(
             depositableSerial: $this->depositableSerial,
             depositableType: $this->getDepositableUtilityName('\\App\\Projections\\'),
             amount: $this->deposit,
@@ -71,7 +71,7 @@ class CreateDeposit extends Component
         $this->emit('loadCustomers');
         $this->unsetAttributes();
         $this->emit('showAlert', 'success.message', 'Deposit created.');
-        if ($reminder) {
+        if ($deposit->reminder) {
             $reminder = number_format($reminder, 2, '.', ',');
             $message = "Тhe deposit exceeds the allowed amount. Remainder of the deposit: {$reminder} BGN";
             $this->emit('showAlert', 'warning.message', $message);

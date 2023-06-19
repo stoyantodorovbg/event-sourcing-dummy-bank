@@ -2,7 +2,7 @@
 
 namespace App\Actions\Interfaces;
 
-use App\Dto\CreateCreditInput;
+use App\Dto\Credit\CreateCreditInput;
 use Spatie\EventSourcing\Projections\Projection;
 
 interface CreateCreditInterface

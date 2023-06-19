@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Actions\Interfaces\CreateAccountInterface;
-use App\Dto\CreateAccountInput;
+use App\Dto\Account\CreateAccountInput;
 
 class AccountsTableSeeder extends BaseSeeder
 {

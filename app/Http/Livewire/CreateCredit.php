@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Actions\Interfaces\CreateCreditInterface;
-use App\Dto\CreateCreditInput;
+use App\Dto\Credit\CreateCreditInput;
 use App\Http\Livewire\Traits\CreateCustomer;
 use App\Http\Livewire\Traits\UnsetAttributes;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;

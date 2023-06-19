@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Dto\CreateDeposit;
+use App\Dto\Deposit\CreateDeposit;
 use Illuminate\Foundation\Events\Dispatchable;
 use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 

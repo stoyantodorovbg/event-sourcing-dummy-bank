@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Actions\Interfaces\CreateAccountInterface;
-use App\Dto\CreateAccountInput;
+use App\Dto\Account\CreateAccountInput;
 use App\Http\Livewire\Traits\CreateCustomer;
 use App\Http\Livewire\Traits\UnsetAttributes;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;

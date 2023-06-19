@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Dto\CreateCredit;
+use App\Dto\Credit\CreateCredit;
 use Illuminate\Foundation\Events\Dispatchable;
 use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 

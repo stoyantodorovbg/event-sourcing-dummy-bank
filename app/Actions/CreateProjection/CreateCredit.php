@@ -1,21 +1,24 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\CreateProjection;
 
+use App\Actions\CreateProjection\Helpers\GetCustomerSerial;
 use App\Actions\Interfaces\CreateCreditInterface;
 use App\Actions\Interfaces\GetCustomerInterface;
 use App\Actions\Interfaces\GetSerialNumberInterface;
-use App\Dto\CreateCredit as CreateCreditDto;
-use App\Dto\CreateCreditInput;
+use App\Dto\Credit\CreateCredit as CreateCreditDto;
+use App\Dto\Credit\CreateCreditInput;
 use App\Events\NewCredit;
 use App\Projections\Credit;
-use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
+use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use Illuminate\Support\Str;
 use Spatie\EventSourcing\Projections\Projection;
 
 readonly class CreateCredit implements CreateCreditInterface
 {
+    use GetCustomerSerial;
+
     public function __construct(
         protected CustomerRepositoryInterface $customerRepository,
         protected CreditRepositoryInterface   $creditRepository,
@@ -30,7 +33,7 @@ readonly class CreateCredit implements CreateCreditInterface
         $serial = $this->getSerialNumber->execute(Credit::class);
         $creditData = new CreateCreditDto(
             uuid: Str::uuid(),
-            customerSerial: $this->getCustomer->execute($data->customerSerial, $data->customerName)->serial,
+            customerSerial: $this->getCustomerSerial($data->customerSerial, $data->customerName),
             amount: $data->amount,
             term: $data->term,
             serial: $serial,

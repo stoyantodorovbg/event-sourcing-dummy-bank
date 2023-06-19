@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\CreateProjection;
 
+use App\Actions\Interfaces\CreateDepositInterface;
+use App\Actions\Interfaces\CreateProjectionInterface;
 use App\Actions\Interfaces\GetDepositAmountInterface;
 use App\Actions\Interfaces\GetDepositRemainderInterface;
-use App\Actions\Interfaces\CreateDepositInterface;
 use App\Actions\Interfaces\GetSerialNumberInterface;
-use App\Dto\CreateDepositInput;
-use App\Dto\CreateDeposit as CreateDepositDto;
-use App\Dto\UpdateDepositable;
+use App\Dto\Deposit\CreateDeposit as CreateDepositDto;
+use App\Dto\Deposit\CreateDepositInput;
+use App\Dto\Deposit\UpdateDepositable;
 use App\Events\NewDeposit;
+use App\Projections\Credit;
+use App\Repositories\Interfaces\DepositRepositoryInterface;
+use Spatie\EventSourcing\Projections\Projection;
 
 readonly class CreateDeposit implements CreateDepositInterface
 {
@@ -17,11 +21,12 @@ readonly class CreateDeposit implements CreateDepositInterface
         protected GetDepositAmountInterface    $getDepositAmount,
         protected GetDepositRemainderInterface $getDepositRemainder,
         protected GetSerialNumberInterface     $getSerialNumber,
+        protected DepositRepositoryInterface   $depositRepository,
     )
     {
     }
 
-    public function execute(CreateDepositInput $data): float
+    public function execute(CreateDepositInput $data): Projection
     {
         $depositableName = explode('\\', $data->depositableType);
         $depositableName = end($depositableName);
@@ -36,15 +41,17 @@ readonly class CreateDeposit implements CreateDepositInterface
             amount: $depositAmount,
         ));
 
+        $serial = $this->getSerialNumber->execute(Credit::class);
         NewDeposit::dispatch(new CreateDepositDto(
                 depositableSerial: $data->depositableSerial,
                 depositableType: $data->depositableType,
                 amount: $depositAmount,
-                serial: $this->getSerialNumber->execute($data->depositableType),
+                remainder: $remainder,
+                serial: $serial,
                 createdAt: now(),
             )
         );
 
-        return $remainder;
+        return $this->depositRepository->findBySerial($serial);
     }
 }

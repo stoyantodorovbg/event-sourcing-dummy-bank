@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\ProcessData;
 
 use App\Actions\Interfaces\GetSerialNumberInterface;
 

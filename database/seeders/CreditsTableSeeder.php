@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Actions\Interfaces\CreateCreditInterface;
-use App\Dto\CreateCreditInput;
+use App\Dto\Credit\CreateCreditInput;
 
 class CreditsTableSeeder extends BaseSeeder
 {

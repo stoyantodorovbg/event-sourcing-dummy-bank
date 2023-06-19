@@ -2,7 +2,7 @@
 
 namespace App\Actions\Interfaces;
 
-use App\Dto\CreateAccountInput;
+use App\Dto\Account\CreateAccountInput;
 use Spatie\EventSourcing\Projections\Projection;
 
 interface CreateAccountInterface

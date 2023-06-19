@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Dto\CreateCustomer;
+use App\Dto\Customer\CreateCustomer;
 use Illuminate\Foundation\Events\Dispatchable;
 use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 
