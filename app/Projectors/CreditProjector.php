@@ -2,6 +2,7 @@
 
 namespace App\Projectors;
 
+use App\Actions\Interfaces\RemainingInstallmentsInterface;
 use App\Events\NewCredit;
 use App\Events\UpdateCreditDeposit;
 use App\Projections\Credit;
@@ -16,7 +17,11 @@ class CreditProjector extends BaseProjector
 
     public function onNewCredit(NewCredit $event): Projection
     {
-        return $this->project($event->attributes);
+        $attributes = $event->attributes;
+        $attributes->initialAmount = $attributes->amount;
+        $attributes->remainingInstallments = $attributes->term;
+
+        return $this->project($attributes);
     }
 
     public function onUpdateCreditDeposit(UpdateCreditDeposit $event): Projection
@@ -24,6 +29,7 @@ class CreditProjector extends BaseProjector
         $credit = $this->findByUuid($event->attributes->depositableUuid)->writeable();
         $credit->deposit += $event->attributes->amount;
         $credit->amount -= $event->attributes->amount;
+        $credit->remaining_installments = resolve(RemainingInstallmentsInterface::class)->execute($credit);
         $credit->save();
 
         return $credit;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\ProcessData;
+namespace App\Actions\ProcessData\Formats;
 
 use App\Actions\Interfaces\FormatMoneyInterface;
 

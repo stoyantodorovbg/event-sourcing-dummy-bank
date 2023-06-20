@@ -15,6 +15,7 @@ class CreateCredit
         readonly public Carbon $deadline,
         readonly public Carbon $createdAt,
         public float|null $initialAmount = null,
+        public int|null $remainingInstallments = null,
     )
     {
     }

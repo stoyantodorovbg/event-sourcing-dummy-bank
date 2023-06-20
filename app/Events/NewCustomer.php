@@ -13,8 +13,7 @@ class NewCustomer extends ShouldBeStored
     /**
      * Create a new event instance.
      */
-    public function __construct(public CreateCustomer $attributes)
+    public function __construct(public readonly CreateCustomer $attributes)
     {
-        //
     }
 }

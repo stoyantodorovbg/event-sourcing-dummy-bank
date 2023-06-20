@@ -9,6 +9,7 @@
             <th>Due Amount</th>
             <th>Deposit</th>
             <th>Term</th>
+            <th>Remaining Installments</th>
             <th>Monthly Installment</th>
             <th>Serial Number</th>
             <th>Customer Serial Number</th>
@@ -22,7 +23,8 @@
                 <td>{{ $this->formatMoney->execute($credit->amount) }} BGN</td>
                 <td>{{ $this->formatMoney->execute($credit->deposit) }} BGN</td>
                 <td>{{ $credit->term }} months</td>
-                <td>{{ $this->formatMoney->execute($credit->monthly_installment) }} BGN</td>
+                <td>{{ $this->formatMoney->execute($credit->initial_monthly_installment) }} BGN</td>
+                <td>{{ $credit->remaining_installments }}</td>
                 <td>{{ $credit->serial }}</td>
                 <td>{{ $credit->customer->serial }}</td>
             </tr>

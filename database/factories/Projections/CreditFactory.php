@@ -26,6 +26,7 @@ class CreditFactory extends BaseFactory
             'initial_amount' => $amount,
             'amount' => $amount,
             'term' => $term,
+            'remaining_installments' => $term,
             'serial' => resolve(GetSerialNumberInterface::class)->execute($this->model),
             'deadline' => now()->addMonths($term),
         ];

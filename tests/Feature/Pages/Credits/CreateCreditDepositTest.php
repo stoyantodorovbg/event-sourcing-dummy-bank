@@ -79,7 +79,9 @@ class CreateCreditDepositTest extends TestCase
             'depositableSerial' => $credit->serial,
             'deposit' => $deposit,
         ])->call('submit');
-        Livewire::test('credits-index')->assertSee($this->formatMoney->execute($amount - $deposit));
+        $credit->fresh();
+        Livewire::test('credits-index')->assertSee($this->formatMoney->execute($amount - $deposit))
+            ->assertSee($credit->remaining_installments);
     }
 
     /** @test */

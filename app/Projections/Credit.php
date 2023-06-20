@@ -12,7 +12,7 @@ class Credit extends BaseProjection implements HasDeposits
     use HasFactory, HasDepositsTrait;
 
     protected $primaryKey = 'id';
-    protected $appends = ['allowable_amount', 'monthly_installment'];
+    protected $appends = ['allowable_amount', 'initial_monthly_installment'];
 
     public function customer(): BelongsTo
     {
@@ -24,7 +24,7 @@ class Credit extends BaseProjection implements HasDeposits
         return $this->amount;
     }
 
-    public function getMonthlyInstallmentAttribute(): float
+    public function getInitialMonthlyInstallmentAttribute(): float
     {
         return $this->initial_amount / $this->term;
     }

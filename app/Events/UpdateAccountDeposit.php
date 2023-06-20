@@ -13,7 +13,7 @@ class UpdateAccountDeposit extends ShouldBeStored
     /**
      * Create a new event instance.
      */
-    public function __construct(public UpdateDepositable $attributes)
+    public function __construct(public readonly UpdateDepositable $attributes)
     {
     }
 }

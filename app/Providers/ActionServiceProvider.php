@@ -16,10 +16,12 @@ use App\Actions\Interfaces\GetCustomerInterface;
 use App\Actions\Interfaces\GetDepositAmountInterface;
 use App\Actions\Interfaces\GetDepositRemainderInterface;
 use App\Actions\Interfaces\GetSerialNumberInterface;
-use App\Actions\ProcessData\FormatMoney;
-use App\Actions\ProcessData\GetDepositAmount;
-use App\Actions\ProcessData\GetDepositRemainder;
-use App\Actions\ProcessData\GetSerialNumber;
+use App\Actions\Interfaces\RemainingInstallmentsInterface;
+use App\Actions\ProcessData\Credits\RemainingInstallments;
+use App\Actions\ProcessData\Deposits\GetDepositAmount;
+use App\Actions\ProcessData\Deposits\GetDepositRemainder;
+use App\Actions\ProcessData\Formats\FormatMoney;
+use App\Actions\ProcessData\Projections\GetSerialNumber;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
@@ -100,5 +102,6 @@ class ActionServiceProvider extends ServiceProvider
         );
         $this->app->bind(FormatMoneyInterface::class, FormatMoney::class);
         $this->app->bind(GetSerialNumberInterface::class, GetSerialNumber::class);
+        $this->app->bind(RemainingInstallmentsInterface::class, RemainingInstallments::class);
     }
 }

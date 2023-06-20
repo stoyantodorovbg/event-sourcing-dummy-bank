@@ -13,7 +13,7 @@ class NewDeposit extends ShouldBeStored
     /**
      * Create a new event instance.
      */
-    public function __construct(public CreateDeposit $attributes)
+    public function __construct(public readonly CreateDeposit $attributes)
     {
     }
 }
