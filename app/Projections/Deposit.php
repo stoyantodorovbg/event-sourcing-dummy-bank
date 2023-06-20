@@ -12,6 +12,6 @@ class Deposit extends BaseProjection
 
     public function depositable(): MorphTo
     {
-        return $this->morphTo(id: 'serial', ownerKey: 'depositable_serial');
+        return $this->morphTo(id: 'depositable_serial', ownerKey: 'serial');
     }
 }

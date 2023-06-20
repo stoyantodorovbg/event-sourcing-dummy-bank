@@ -2,8 +2,6 @@
 
 namespace App\Actions\Interfaces;
 
-use App\Projections\Credit;
-
 interface GetDepositAmountInterface
 {
     /**
