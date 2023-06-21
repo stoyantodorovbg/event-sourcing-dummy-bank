@@ -13,6 +13,7 @@ use App\Dto\Deposit\UpdateDepositable;
 use App\Events\NewDeposit;
 use App\Projections\Credit;
 use App\Repositories\Interfaces\DepositRepositoryInterface;
+use Illuminate\Support\Str;
 use Spatie\EventSourcing\Projections\Projection;
 
 readonly class CreateDeposit implements CreateDepositInterface
@@ -43,6 +44,7 @@ readonly class CreateDeposit implements CreateDepositInterface
 
         $serial = $this->getSerialNumber->execute(Credit::class);
         NewDeposit::dispatch(new CreateDepositDto(
+                uuid: Str::uuid(),
                 depositableSerial: $data->depositableSerial,
                 depositableType: $data->depositableType,
                 amount: $depositAmount,

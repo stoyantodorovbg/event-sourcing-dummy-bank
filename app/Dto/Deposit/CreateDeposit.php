@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 readonly class CreateDeposit
 {
     public function __construct(
+        public string $uuid,
         public string $depositableSerial,
         public string $depositableType,
         public float $amount,
