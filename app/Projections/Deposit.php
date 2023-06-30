@@ -9,7 +9,6 @@ class Deposit extends BaseProjection
 {
     use HasFactory;
 
-
     public function depositable(): MorphTo
     {
         return $this->morphTo(id: 'depositable_serial', ownerKey: 'serial');
