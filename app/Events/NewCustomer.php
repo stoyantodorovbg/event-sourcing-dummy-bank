@@ -10,9 +10,6 @@ class NewCustomer extends ShouldBeStored
 {
     use Dispatchable;
 
-    /**
-     * Create a new event instance.
-     */
     public function __construct(public readonly CreateCustomer $attributes)
     {
     }

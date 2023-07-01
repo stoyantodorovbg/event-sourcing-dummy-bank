@@ -2,14 +2,15 @@
 
 namespace App\Dto\Availability;
 
+use App\Enums\Operation;
 use App\Enums\Projections\AvailabilityName;
 
-readonly class CreateAvailability
+readonly class UpdateAvailabilityInput
 {
     public function __construct(
-        public string           $uuid,
         public AvailabilityName $name,
-        public float            $amount,
+        public Operation        $operation,
+        public float            $amount
     )
     {
     }

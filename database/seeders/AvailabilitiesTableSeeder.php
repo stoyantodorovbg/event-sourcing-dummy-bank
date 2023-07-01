@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Dto\Availability\CreateAvailability;
-use App\Enums\Projections\AvailabilityNames;
+use App\Enums\Projections\AvailabilityName;
 use App\Events\NewAvailability;
 use App\Projections\Availability;
 use Illuminate\Database\Seeder;
@@ -19,7 +19,7 @@ class AvailabilitiesTableSeeder extends Seeder
         if (! Availability::where('name', 'Total Available Amount')->count()) {
             NewAvailability::dispatch(new CreateAvailability(
                     uuid: Str::uuid(),
-                    name: AvailabilityNames::AVAILABLE,
+                    name: AvailabilityName::AVAILABLE,
                     amount: 0.0
                 )
             );

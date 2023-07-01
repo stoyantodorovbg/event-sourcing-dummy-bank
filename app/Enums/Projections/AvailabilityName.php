@@ -2,7 +2,7 @@
 
 namespace App\Enums\Projections;
 
-enum AvailabilityNames: string
+enum AvailabilityName: string
 {
     case AVAILABLE = 'Total Available Amount';
 }

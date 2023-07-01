@@ -7,7 +7,7 @@ use App\Dto\Account\CreateAccountInput;
 
 class AccountsTableSeeder extends BaseSeeder
 {
-    protected int $count = 15;
+    protected int $count = 115;
 
     /**
      * Run the database seeds.

@@ -173,6 +173,7 @@ return [
         App\Providers\ActionServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\RulesServiceProvider::class,
+        App\Providers\ServiceServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -2,7 +2,7 @@
 
 namespace App\Projections;
 
-use App\Enums\Projections\AvailabilityNames;
+use App\Enums\Projections\AvailabilityName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Availability extends BaseProjection
@@ -10,6 +10,6 @@ class Availability extends BaseProjection
     use HasFactory;
 
     protected $casts = [
-        'name' => AvailabilityNames::class
+        'name' => AvailabilityName::class
     ];
 }

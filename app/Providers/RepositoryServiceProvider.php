@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Repositories\AccountRepository;
+use App\Repositories\AvailabilityRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\CreditRepository;
 use App\Repositories\DepositRepository;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
+use App\Repositories\Interfaces\AvailabilityRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use App\Repositories\Interfaces\DepositRepositoryInterface;
@@ -31,5 +33,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CreditRepositoryInterface::class, CreditRepository::class);
         $this->app->bind(AccountRepositoryInterface::class, AccountRepository::class);
         $this->app->bind(DepositRepositoryInterface::class, DepositRepository::class);
+        $this->app->bind(AvailabilityRepositoryInterface::class, AvailabilityRepository::class);
     }
 }

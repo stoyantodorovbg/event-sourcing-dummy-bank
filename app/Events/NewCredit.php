@@ -10,9 +10,6 @@ class NewCredit extends ShouldBeStored
 {
     use Dispatchable;
 
-    /**
-     * Create a new event instance.
-     */
     public function __construct(public readonly CreateCredit $attributes)
     {
     }

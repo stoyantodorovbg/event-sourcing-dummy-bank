@@ -10,10 +10,7 @@ class NewAccount extends ShouldBeStored
 {
     use Dispatchable;
 
-    /**
-     * Create a new event instance.
-     */
-    public function __construct(public CreateAccount $attributes)
+    public function __construct(readonly public CreateAccount $attributes)
     {
     }
 }

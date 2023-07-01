@@ -10,10 +10,7 @@ class NewAvailability extends ShouldBeStored
 {
     use Dispatchable;
 
-    /**
-     * Create a new event instance.
-     */
-    public function __construct(public CreateAvailability $attributes)
+    public function __construct(readonly public CreateAvailability $attributes)
     {
     }
 }

@@ -10,9 +10,6 @@ class NewDeposit extends ShouldBeStored
 {
     use Dispatchable;
 
-    /**
-     * Create a new event instance.
-     */
     public function __construct(public readonly CreateDeposit $attributes)
     {
     }
