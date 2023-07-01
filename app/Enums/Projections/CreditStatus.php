@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\Models;
+namespace App\Enums\Projections;
 
 enum CreditStatus: int
 {

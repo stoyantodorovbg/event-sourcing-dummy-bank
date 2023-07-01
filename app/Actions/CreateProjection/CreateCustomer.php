@@ -32,7 +32,7 @@ readonly class CreateCustomer implements CreateCustomerInterface
             createdAt: now(),
         );
 
-        NewCustomer::class::dispatch($customerData);
+        NewCustomer::dispatch($customerData);
 
         return $this->customerRepository->findBySerial($serial);
     }

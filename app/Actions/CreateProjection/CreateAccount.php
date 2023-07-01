@@ -39,7 +39,7 @@ readonly class CreateAccount implements CreateAccountInterface
             createdAt: now(),
         );
 
-        NewAccount::class::dispatch($accountData);
+        NewAccount::dispatch($accountData);
 
         return $this->accountRepository->findBySerial($serial);
     }

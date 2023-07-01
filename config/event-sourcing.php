@@ -50,7 +50,7 @@ return [
     /*
      * This class is responsible for storing events in the EloquentStoredEventRepository.
      * To add extra behaviour you can change this to a class of your own. It should
-     * extend the \Spatie\EventSourcing\StoredEvents\Models\EloquentStoredEvent model.
+     * extend the \Spatie\EventSourcing\StoredEvents\Projections\EloquentStoredEvent model.
      */
     'stored_event_model' => Spatie\EventSourcing\StoredEvents\Models\EloquentStoredEvent::class,
 

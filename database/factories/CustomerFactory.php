@@ -1,10 +1,9 @@
 <?php
 
-namespace Database\Factories\Projections;
+namespace Database\Factories;
 
 use App\Actions\Interfaces\GetSerialNumberInterface;
 use App\Projections\Customer;
-use Database\Factories\BaseFactory;
 use Illuminate\Support\Str;
 
 class CustomerFactory extends BaseFactory

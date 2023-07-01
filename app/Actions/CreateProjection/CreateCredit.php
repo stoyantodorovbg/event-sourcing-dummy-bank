@@ -41,7 +41,7 @@ readonly class CreateCredit implements CreateCreditInterface
             createdAt: now(),
         );
 
-        NewCredit::class::dispatch($creditData);
+        NewCredit::dispatch($creditData);
 
         return $this->creditRepository->findBySerial($serial);
     }

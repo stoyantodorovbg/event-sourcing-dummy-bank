@@ -1,11 +1,10 @@
 <?php
 
-namespace Database\Factories\Projections;
+namespace Database\Factories;
 
 use App\Actions\Interfaces\GetSerialNumberInterface;
 use App\Projections\Account;
 use App\Projections\Deposit;
-use Database\Factories\BaseFactory;
 use Illuminate\Support\Str;
 
 class DepositFactory extends BaseFactory

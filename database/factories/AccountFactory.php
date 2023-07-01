@@ -1,11 +1,10 @@
 <?php
 
-namespace Database\Factories\Projections;
+namespace Database\Factories;
 
 use App\Actions\Interfaces\GetSerialNumberInterface;
-use App\Projections\Customer;
 use App\Projections\Account;
-use Database\Factories\BaseFactory;
+use App\Projections\Customer;
 use Illuminate\Support\Str;
 
 /**
