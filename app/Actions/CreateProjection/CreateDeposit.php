@@ -3,28 +3,30 @@
 namespace App\Actions\CreateProjection;
 
 use App\Actions\Interfaces\CreateDepositInterface;
-use App\Actions\Interfaces\CreateProjectionInterface;
 use App\Actions\Interfaces\GetDepositAmountInterface;
 use App\Actions\Interfaces\GetDepositRemainderInterface;
 use App\Actions\Interfaces\GetSerialNumberInterface;
 use App\Dto\Deposit\CreateDeposit as CreateDepositDto;
 use App\Dto\Deposit\CreateDepositInput;
 use App\Dto\Deposit\UpdateDepositable;
+use App\Enums\Operation;
 use App\Events\NewDeposit;
 use App\Projections\Credit;
 use App\Repositories\Interfaces\DepositRepositoryInterface;
+use App\Services\Interfaces\SimpleFloatOperation;
 use Illuminate\Support\Str;
 use Spatie\EventSourcing\Projections\Projection;
 
-readonly class CreateDeposit implements CreateDepositInterface
+class CreateDeposit implements CreateDepositInterface
 {
+    protected SimpleFloatOperation $subtract;
     public function __construct(
-        protected GetDepositAmountInterface    $getDepositAmount,
         protected GetDepositRemainderInterface $getDepositRemainder,
         protected GetSerialNumberInterface     $getSerialNumber,
         protected DepositRepositoryInterface   $depositRepository,
     )
     {
+        $this->subtract = resolve(Operation::SUBTRACT->value);
     }
 
     public function execute(CreateDepositInput $data): Projection
@@ -34,7 +36,7 @@ readonly class CreateDeposit implements CreateDepositInterface
         $depositable = resolve("App\\Repositories\\Interfaces\\{$depositableName}RepositoryInterface")->findBySerial($data->depositableSerial);
 
         $remainder = $this->getDepositRemainder->execute($depositable, $data->amount);
-        $depositAmount = $this->getDepositAmount->execute($data->amount, $remainder);
+        $depositAmount = $this->subtract->execute($data->amount, $remainder);
 
         $event = "\\App\\Events\\Update{$depositableName}Deposit";
         $event::dispatch(new UpdateDepositable(

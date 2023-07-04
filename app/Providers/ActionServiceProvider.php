@@ -22,6 +22,7 @@ use App\Actions\ProcessData\Deposits\GetDepositAmount;
 use App\Actions\ProcessData\Deposits\GetDepositRemainder;
 use App\Actions\ProcessData\Formats\FormatMoney;
 use App\Actions\ProcessData\Projections\GetSerialNumber;
+use App\Enums\Operation;
 use App\Repositories\Interfaces\AccountRepositoryInterface;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
@@ -69,7 +70,6 @@ class ActionServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: CreateDepositInterface::class,
             concrete: fn() => resolve(CreateDeposit::class, [
-                resolve(GetDepositAmountInterface::class),
                 resolve(GetDepositRemainderInterface::class),
                 resolve(GetSerialNumberInterface::class),
                 resolve(DepositRepositoryInterface::class),
