@@ -16,6 +16,11 @@
                     <button type="button" class="btn btn-light m-1">Credits</button>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link p-0" href="{{ route('availabilities.index') }}">
+                    <button type="button" class="btn btn-light m-1">Availabilities</button>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
