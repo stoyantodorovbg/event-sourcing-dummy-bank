@@ -6,6 +6,7 @@ use App\Actions\CreateProjection\Helpers\GetCustomerSerial;
 use App\Actions\Interfaces\CreateAccountInterface;
 use App\Actions\Interfaces\GetCustomerInterface;
 use App\Actions\Interfaces\GetSerialNumberInterface;
+use App\AggregateRoots\accountAggregateRoot;
 use App\Dto\Account\CreateAccount as CreateAccountDto;
 use App\Dto\Account\CreateAccountInput;
 use App\Events\NewAccount;
@@ -30,17 +31,16 @@ readonly class CreateAccount implements CreateAccountInterface
 
     public function execute(CreateAccountInput $data): Projection
     {
-        $serial = $this->getSerialNumber->execute(Account::class);
-        $accountData = new CreateAccountDto(
+        $accountDto = new CreateAccountDto(
             uuid: Str::uuid(),
             customerSerial: $this->getCustomerSerial($data->customerSerial, $data->customerName),
             amount: $data->amount,
-            serial: $serial,
+            serial: $this->getSerialNumber->execute(Account::class),
             createdAt: now(),
         );
 
-        NewAccount::dispatch($accountData);
+        AccountAggregateRoot::retrieve($accountDto->uuid)->newAccount($accountDto)->persist();
 
-        return $this->accountRepository->findBySerial($serial);
+        return $this->accountRepository->findBySerial($accountDto->serial);
     }
 }

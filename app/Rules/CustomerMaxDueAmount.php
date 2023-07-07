@@ -2,31 +2,30 @@
 
 namespace App\Rules;
 
+use App\Dto\Checkers\CheckCustomerDueAmount;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
+use App\Services\Interfaces\CheckerInterface;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class CustomerMaxDueAmount implements ValidationRule
+readonly class CustomerMaxDueAmount implements ValidationRule
 {
     public function __construct(
-        protected readonly CustomerRepositoryInterface $customerRepository,
+        protected CustomerRepositoryInterface $customerRepository,
+        protected CheckerInterface $checker,
     )
     {
     }
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $allowableAmount = config('app.customerMaxTotalAmount');
-        $customerSerial = request()->get('serverMemo')['data']['customerSerial'];
-        if (! $customerSerial && $value < $allowableAmount) {
-            return;
-        }
+        $dto = new CheckCustomerDueAmount(
+            customerSerial: request()->get('serverMemo')['data']['customerSerial'],
+            value: $value,
+        );
 
-        $totalAmount = $this->customerRepository->customerTotalDueAmount($customerSerial) + $value;
-        if ($totalAmount > $allowableAmount) {
-            $totalAmount = number_format($totalAmount, 2, '.', ',');
-            $allowableAmount = number_format($allowableAmount, 2, '.', ',');
-            $fail("The total amount owed to the customer will become {$totalAmount} BGN, but it shouldn't be greater then {$allowableAmount} BGN");
+        if ($check = $this->checker->check($dto)) {
+            $fail($check);
         }
     }
 }

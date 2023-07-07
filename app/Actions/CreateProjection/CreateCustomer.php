@@ -24,16 +24,15 @@ readonly class CreateCustomer implements CreateCustomerInterface
 
     public function execute(CreateCustomerInput $data): Projection
     {
-        $serial = $this->getSerialNumber->execute(Customer::class);
-        $customerData = new CreateCustomerDto(
+        $customerDto = new CreateCustomerDto(
             uuid: Str::uuid(),
             name: $data->customerName,
-            serial: $serial,
+            serial: $this->getSerialNumber->execute(Customer::class),
             createdAt: now(),
         );
 
-        NewCustomer::dispatch($customerData);
+        NewCustomer::dispatch($customerDto);
 
-        return $this->customerRepository->findBySerial($serial);
+        return $this->customerRepository->findBySerial($customerDto->serial);
     }
 }

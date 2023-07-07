@@ -6,9 +6,9 @@ use App\Actions\CreateProjection\Helpers\GetCustomerSerial;
 use App\Actions\Interfaces\CreateCreditInterface;
 use App\Actions\Interfaces\GetCustomerInterface;
 use App\Actions\Interfaces\GetSerialNumberInterface;
+use App\AggregateRoots\CreditAggregateRoot;
 use App\Dto\Credit\CreateCredit as CreateCreditDto;
 use App\Dto\Credit\CreateCreditInput;
-use App\Events\NewCredit;
 use App\Projections\Credit;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
@@ -30,19 +30,18 @@ readonly class CreateCredit implements CreateCreditInterface
 
     public function execute(CreateCreditInput $data): Projection
     {
-        $serial = $this->getSerialNumber->execute(Credit::class);
-        $creditData = new CreateCreditDto(
+        $creditDto = new CreateCreditDto(
             uuid: Str::uuid(),
             customerSerial: $this->getCustomerSerial($data->customerSerial, $data->customerName),
             amount: $data->amount,
             term: $data->term,
-            serial: $serial,
+            serial: $this->getSerialNumber->execute(Credit::class),
             deadline: now()->addMonths($data->term)->endOfDay(),
             createdAt: now(),
         );
 
-        NewCredit::dispatch($creditData);
+        CreditAggregateRoot::retrieve($creditDto->uuid)->newCredit($creditDto)->persist();
 
-        return $this->creditRepository->findBySerial($serial);
+        return $this->creditRepository->findBySerial($creditDto->serial);
     }
 }

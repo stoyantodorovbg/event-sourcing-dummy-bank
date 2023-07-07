@@ -23,9 +23,10 @@ class RulesServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             abstract: 'customer-max-due-amount',
-            concrete: fn() => resolve(CustomerMaxDueAmount::class, [
-                resolve(CustomerRepositoryInterface::class),
-            ])
+            concrete: fn() => new CustomerMaxDueAmount(
+                customerRepository: resolve(CustomerRepositoryInterface::class),
+                checker: resolve('customer-due-amount-checker'),
+            )
         );
     }
 }
