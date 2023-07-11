@@ -50,7 +50,7 @@ class CreateCredit extends Component
     {
         return [
             ...$this->createCustomerValidation,
-            'amount' => ['required', 'numeric', 'min:1', 'max:80000', resolve('customer-max-due-amount')],
+            'amount' => ['required', 'numeric', 'min:1', 'max:80000'],
             'term' => 'required|integer|min:1|max:12',
         ];
     }

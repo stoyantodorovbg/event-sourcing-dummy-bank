@@ -50,7 +50,7 @@ class CreateDeposit implements CreateDepositInterface
         );
 
         $aggregateRootClass = "\\App\\AggregateRoots\\{$depositableName}AggregateRoot";
-        $aggregateRoot =$aggregateRootClass::retrieve($depositable->uuid);
+        $aggregateRoot = $aggregateRootClass::retrieve($depositable->uuid);
         $aggregateRoot->newDeposit($depositDto)->updateDepositable($updateDepositableDto)->persist();
 
         return $this->depositRepository->findBySerial($depositDto->serial);
